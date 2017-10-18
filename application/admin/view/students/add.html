@@ -1,0 +1,193 @@
+<!--header-->
+{include file="public/_meta" /}
+<article class="page-container">
+    <form class="form form-horizontal" id="form-singwaapp" url="{:url('students/add')}">
+
+
+        <div class="row cl">
+
+            <label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>学号：</label>
+            <div class="formControls col-xs-8 col-sm-9">
+                <input type="text" class="input-text" value="" placeholder="" id="studentNum" name="studentNum">
+            </div>
+        </div>
+        <div class="row cl">
+            <label class="form-label col-xs-4 col-sm-2">个人头像：</label>
+            <div class="formControls col-xs-8 col-sm-9">
+                <input id="file_upload" type="file" multiple="true">
+                <img style="display: none" id="upload_org_code_img" src="" width="150" height="150">
+                <input id="file_upload_image" name="image" type="hidden" multiple="true" value="">
+            </div>
+        </div>
+
+        <div class="row cl">
+            <label class="form-label col-xs-4 col-sm-2">名字：</label>
+            <div class="formControls col-xs-8 col-sm-9">
+                <input type="text" class="input-text" value="" placeholder="" id="stu_name" name="stu_name">
+            </div>
+        </div>
+
+        <div class="row cl">
+            <label class="form-label col-xs-4 col-sm-2">密码：</label>
+            <div class="formControls col-xs-8 col-sm-9">
+                <input type="text" class="input-text" value="" placeholder="" id="password" name="password">
+            </div>
+        </div>
+
+        <div class="row cl">
+            <label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>学院：</label>
+            <div class="formControls col-xs-8 col-sm-9"> <span class="select-box">
+				<select name="college" class="select">
+      {volist name="stu_cats_college" id="vo"}
+                  <option value="{$key}">{$vo}</option>
+                  {/volist}
+                </select>
+				</span>
+            </div>
+        </div>
+
+
+        <div class="row cl">
+            <label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>专业：</label>
+            <div class="formControls col-xs-8 col-sm-9"> <span class="select-box">
+				<select name="major" class="select">
+      {volist name="stu_cats_major" id="vo1"}
+                  <option value="{$key}">{$vo1}</option>
+                  {/volist}
+                </select>
+				</span>
+            </div>
+        </div>
+
+
+        <div class="row cl">
+            <label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>性别：</label>
+            <div class="formControls col-xs-8 col-sm-9"> <span class="select-box">
+				<select name="sex" class="select">
+      {volist name="cats_sex" id="vo2"}
+                  <option value="{$key}">{$vo2}</option>
+                  {/volist}
+                </select>
+				</span>
+            </div>
+        </div>
+
+
+        <div class="row cl">
+
+            <label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>出生日期：</label>
+            <div class="formControls col-xs-8 col-sm-9">
+
+                <input type="text" name="birthday" class="input-text" id="birthday" onfocus="selecttime()" value=""
+                       style="width:120px;">
+            </div>
+        </div>
+
+
+        <div class="row cl">
+
+            <label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>电话：</label>
+            <div class="formControls col-xs-8 col-sm-9">
+                <input type="text" class="input-text" value="" placeholder="" id="phone" name="phone">
+            </div>
+        </div>
+
+        <div class="row cl">
+
+            <label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>邮箱：</label>
+            <div class="formControls col-xs-8 col-sm-9">
+                <input type="text" class="input-text" value="" placeholder="" id="email" name="email">
+            </div>
+        </div>
+
+
+        <div class="row cl">
+            <label class="form-label col-xs-4 col-sm-2">地址：</label>
+            <div class="formControls col-xs-8 col-sm-9">
+                <textarea name="address" cols="" rows="" class="textarea" placeholder="说点什么...最少输入10个字符"
+                          datatype="*10-100" dragonfly="true" nullmsg="备注不能为空！"></textarea>
+                <p class="textarea-numberbar"><em class="textarea-length">0</em>/200</p>
+            </div>
+        </div>
+
+
+        <div class="row cl">
+            <div class="col-xs-8 col-sm-9 col-xs-offset-4 col-sm-offset-2">
+                <button class="btn btn-secondary radius" type="submit"><i class="Hui-iconfont">&#xe632;</i> 保存</button>
+                <button onClick="removeIframe();" class="btn btn-default radius" type="button">&nbsp;&nbsp;取消&nbsp;&nbsp;</button>
+            </div>
+        </div>
+    </form>
+</article>
+
+<!--header-->
+{include file="public/_footer" /}
+
+<!--请在下方写此页面业务相关的脚本-->
+<script type="text/javascript" src="__STATIC__/hadmin/lib/My97DatePicker/4.8/WdatePicker.js"></script>
+<script type="text/javascript" src="__STATIC__/hadmin/lib/jquery.validation/1.14.0/jquery.validate.js"></script>
+<script type="text/javascript" src="__STATIC__/hadmin/lib/jquery.validation/1.14.0/validate-methods.js"></script>
+<script type="text/javascript" src="__STATIC__/hadmin/lib/jquery.validation/1.14.0/messages_zh.js"></script>
+<script type="text/javascript" src="__STATIC__/hadmin/lib/ueditor/1.4.3/ueditor.config.js"></script>
+<script type="text/javascript" src="__STATIC__/hadmin/lib/ueditor/1.4.3/ueditor.all.min.js"> </script>
+<script type="text/javascript" src="__STATIC__/hadmin/lib/ueditor/1.4.3/lang/zh-cn/zh-cn.js"></script>
+{load href="__STATIC__/admin/uploadify/jquery.uploadify.min.js" /}
+{load href="__STATIC__/admin/js/image.js" /}
+<script type="text/javascript">
+
+    function selecttime() {
+        var endTime = $("#birthday").val();
+        if (endTime != "") {
+            WdatePicker({dateFmt: 'yyyy-MM-dd ', maxDate: endTime})
+        } else {
+            WdatePicker({dateFmt: 'yyyy-MM-dd '})
+        }
+
+    }
+
+
+    $(function () {
+        $('.skin-minimal input').iCheck({
+            checkboxClass: 'icheckbox-blue',
+            radioClass: 'iradio-blue',
+            increaseArea: '20%'
+        });
+
+
+        //表单验证
+        $("#form-singwaapp").validate({
+            rules: {
+                studentNum: {
+                    required: true,
+                },
+                password: {
+                    required: true,
+                },
+                stu_name: {
+                    required: true,
+                },
+                phone: {
+                    required: true,
+                },
+                address: {
+                    required: true,
+                },
+
+            },
+            onkeyup: false,
+            focusCleanup: true,
+            success: "valid",
+            submitHandler: function (form) {
+                lovecnb_save(form);// 需要小伙伴自定义一个singwaapp_save方法 用来处理抛送请求的哦
+            }
+        });
+
+        var ue = UE.getEditor('editor');
+
+    });
+
+</script>
+<!--/请在上方写此页面业务相关的脚本-->
+
+</body>
+</html>
