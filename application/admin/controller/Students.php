@@ -107,10 +107,9 @@ class Students extends Base
         if (request()->isPost()) {
             $data = input("post.");
             $edit_id=$request->param('id');
-            dump($data);
-            dump($edit_id);
+
 //入库操作
-//你真的很牛逼啊
+
             try {
 
                 $id = model('Students')
@@ -120,7 +119,7 @@ class Students extends Base
                             'studentNum' => $data['studentNum'],
                             'stu_img' => $data['stu_img'],
                             'stu_name' => $data['stu_name'],
-                            'password' => $data['password'],
+                            'password' => $data['password'] = md5($data['password'] . '_#sing_ty'),
                             'college' => $data['college'],
                             'major' => $data['major'],
                             'sex' => $data['sex'],
