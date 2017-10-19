@@ -112,6 +112,7 @@ class Students extends Base
 //入库操作
 
             try {
+
                 $id = model('Students')
                     ->where('id', $edit_id)
                     ->update(
