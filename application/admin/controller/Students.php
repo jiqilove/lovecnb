@@ -110,7 +110,7 @@ class Students extends Base
             dump($data);
             dump($edit_id);
 //入库操作
-
+//你真的很牛逼啊
             try {
 
                 $id = model('Students')
