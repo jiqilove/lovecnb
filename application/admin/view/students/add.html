@@ -1,5 +1,6 @@
 <!--header-->
 {include file="public/_meta" /}
+{load href="__STATIC__/admin/js/students.js" /}
 <article class="page-container">
     <form class="form form-horizontal" id="form-singwaapp" url="{:url('students/add')}">
 
@@ -37,7 +38,7 @@
         <div class="row cl">
             <label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>学院：</label>
             <div class="formControls col-xs-8 col-sm-9"> <span class="select-box">
-				<select name="college" class="select">
+				<select name="college" class="select" id="college">
       {volist name="stu_cats_college" id="vo"}
                   <option value="{$key}">{$vo}</option>
                   {/volist}
@@ -47,13 +48,14 @@
         </div>
 
 
+
         <div class="row cl">
             <label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>专业：</label>
             <div class="formControls col-xs-8 col-sm-9"> <span class="select-box">
-				<select name="major" class="select">
-      {volist name="stu_cats_major" id="vo1"}
-                  <option value="{$key}">{$vo1}</option>
-                  {/volist}
+				<select name="major" class="select" id="major">
+
+                  <option value=""> 请选择</option>
+
                 </select>
 				</span>
             </div>
@@ -133,7 +135,31 @@
 <script type="text/javascript" src="__STATIC__/hadmin/lib/ueditor/1.4.3/lang/zh-cn/zh-cn.js"></script>
 {load href="__STATIC__/admin/uploadify/jquery.uploadify.min.js" /}
 {load href="__STATIC__/admin/js/image.js" /}
+
 <script type="text/javascript">
+
+
+    $('#college').change(function () {
+        $('#major').html("");
+        var  val=$(this).val();
+        alert(111);
+        if (val == 1) {
+            var arr=['aaa',"bbb","bbbaa"];
+
+            for (var i = 0; i < arr.length; i++) {
+                $('$major').append('<option  value="' + arr[i] + '"> 1</option>');
+            }
+        }
+    });
+
+
+
+
+
+
+
+
+
 
     function selecttime() {
         var endTime = $("#birthday").val();

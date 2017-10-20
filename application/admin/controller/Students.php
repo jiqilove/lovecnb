@@ -91,8 +91,8 @@ class Students extends Base
     } else {
 
         return $this->fetch('', [
-            'stu_cats_college' => config('cat.major_lists'),
-            'stu_cats_major' => config('cat.college_lists'),
+            'stu_cats_major' => config('cat.major_lists'),
+            'stu_cats_college' => config('cat.college_lists'),
             'cats_sex' => config('cat.sex_lists')
         ]);
     }
