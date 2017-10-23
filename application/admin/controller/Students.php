@@ -75,6 +75,8 @@ class Students extends Base
 
         $data['password'] = md5($data['password'] . '_#sing_ty');
         $data ['status'] = 1;
+        
+        dump($data);
         try {
             $id = model('Students')->add($data);
 
