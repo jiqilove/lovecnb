@@ -103,8 +103,6 @@ function isRecommend($recommend)
 //    }
 //    $isrecommends = config('cat.recommend');
 //    return !empty($isrecommends[$recommend]) ? $isrecommends[$recommend] : '';
-
-
     /**
      * 老师的代码：
      * 由于是否推荐存在的是  1 和 0 的关系，所以直接使用 三元运算符 就可以解决问题
@@ -112,9 +110,29 @@ function isRecommend($recommend)
      *
      */
 
-
 //    return $recommend ? '是':'否' ;  //不加样式
     return $recommend ? '<span style ="color:red ;" >是  </span>' : '<span  style ="color:#666;"> 否</span>';
+
+}
+/**
+ * 状态
+ * 待审/发布
+ * @param $id
+ * @param $status
+ * @return string
+ */
+function status($id, $status)
+{
+    $controller = request()->controller();          //获取控制器
+    $sta = $status == 1 ? 0 : 1;                    //最终修改的地址状态
+    $url =url($controller.'/status',['id'=>$id,'status'=>$sta]);
+    if($status ==1){
+        $str ="<a href='javascript:;' title='修改状态' status_url='".$url. " ' onclick='app_status(this)'      > 
+<span  class ='label label-success radius '>正常</span></a>";
+    }else if  ($status ==0){
+        $str ="<a href='javascript:;' title='修改状态' status_url='".$url. " ' onclick='app_status(this)'      > <span  class ='label label-danger radius '>待审</span></a>";
+    }
+    return $str;
 
 }
 
@@ -126,20 +144,33 @@ function isRecommend($recommend)
  * @param $status
  * @return string
  */
-
-function status($id, $status)
+function upload_status($id, $upload_status)
 {
     $controller = request()->controller();          //获取控制器
-    $sta = $status == 1 ? 0 : 1;                    //最终修改的地址状态
-    $url =url($controller.'/status',['id'=>$id,'status'=>$sta]);
-    if($status ==1){
-        $str ="<a href='javascript:;' title='修改状态' status_url='".$url. " ' onclick='app_status(this)'      > <span  class ='label label-success radius '>正常</span></a>";
-
-    }else if  ($status ==0){
-        $str ="<a href='javascript:;' title='修改状态' status_url='".$url. " ' onclick='app_status(this)'      > <span  class ='label label-danger radius '>待审</span></a>";
+    $sta = $upload_status == 1 ? 0 : 1;                    //最终修改的地址状态
+    $url =url($controller.'/upload_status',['id'=>$id,'upload_status'=>$sta]);
+    if($upload_status ==1){
+        $str ="<a href='javascript:;' title='修改状态' status_url='".$url. " ' onclick='app_status(this)'      > <span  class ='label label-success radius '>允许上传</span></a>";
+    }else if  ($upload_status ==0){
+        $str ="<a href='javascript:;' title='修改状态' status_url='".$url. " ' onclick='app_status(this)'      > <span  class ='label label-danger radius '>没有权限</span></a>";
     }
     return $str;
 
+}
 
+
+function manager_status($id, $manager_status)
+{
+    $controller = request()->controller();          //获取控制器
+
+    $sta = $manager_status == 1 ? 0 : 1;
+  //最终修改的地址状态
+    $url =url($controller.'/manager_status',['id'=>$id,'manager_status'=>$sta]);
+    if($manager_status ==1){
+        $str ="<a href='javascript:;' title='修改状态' status_url='".$url. " ' onclick='app_status(this)'      > <span  class ='label label-success radius '>允许管理</span></a>";
+    }else if  ($manager_status ==0){
+        $str ="<a href='javascript:;' title='修改状态' status_url='".$url. " ' onclick='app_status(this)'      > <span  class ='label label-danger radius '>没有权限</span></a>";
+    }
+    return $str;
 
 }
