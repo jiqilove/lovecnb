@@ -6,39 +6,13 @@ namespace app\admin\controller;
 use think\Controller;
 use think\Request;
 
-class Videos extends Base
+class VideosChapter extends Base
 {
 
 
 
 
-    /**
-     * 上传七妞云
-     */
-    public function upload()
-    {
 
-        try {
-            $image = Upload::image();
-        }catch (\Exception $exception){
-            echo json_encode(['status' => 0, 'message' => $exception->getMessage()]);
-        }
-        if($image){
-
-            $data = [
-                'status' => 1,
-                'message' => 'ok',
-                'data' => config('qiniu.image_url').'/'.$image,
-                //本地核域名之间的存在不同
-                //
-            ];
-            echo json_encode($data);
-        }else {
-            echo json_encode(['status' => 0, 'message' => '上传失败']);
-        }
-
-
-    }
 
 
 
@@ -57,7 +31,7 @@ class Videos extends Base
         $query = http_build_query($data);
 //        halt($data);   //这句话测试 能都打印搜索到的时间的起止 类型 以及具体相关标题内容
         //转换查询条件
-        $whereData = [];
+$whereData=[];
         /**
          * 时间条件
          */
@@ -68,53 +42,33 @@ class Videos extends Base
                 ['lt', strtotime($data['end_time'])],
             ];
         }
-        /**
-         * 栏目搜索条件
-         */
-        if (!empty($data['catid'])) {
-            $whereData ['catid'] = intval($data['catid']);
-        }
-        /**
-         * 标题搜索条件
-         */
-        if (!empty($data['title'])) {
-            $whereData['title'] = ['like', '%' . $data['title'] . '%'];
-        }
 
 
-//获取数据 然后将数据填充到模板当中
-        //模式一
-//        $news =model('News')->getNews();
-//        模式二
-//        page size from limit from size
         $this->getPageAndSize($data);
 
-//$whereData ['page']=$this ->page;
-//$whereData ['size']= $this->size;
-
-
 //        获取表里头的数据
-        $videos = model('Videos')->getNewsByCondition($whereData, $this->from, $this->size);
+        $chapter = model('VideosChapter')->getNewsByCondition($whereData, $this->from, $this->size);
 //        halt($news);
         //一共有多少页
-        $total = model('Videos')->getNewsCountByCondition($whereData);
+        $total = model('VideosChapter')->getNewsCountByCondition($whereData);
 
 //        echo  $total ;exit();
         //结合总数+size  =》 有多少页
         $pageTotal = ceil($total / $this->size);
         return $this->fetch('', [
-            'videos_cats' => config('cat.video_lists'),
-            'videos' => $videos,
+
+            'videos' =>  $chapter,
             'pageTotal' => $pageTotal,
             'curr' => $this->page,
             'start_time' => empty($data['start_time']) ? '' : $data['start_time'],
             'end_time' => empty($data['end_time']) ? '' : $data['end_time'],
-            'catid' => empty($data['catid']) ? '' : $data['catid'],
-            'title' => empty($data['title']) ? '' : $data['title'],
+
             'query' => $query,
 
         ]);
     }
+
+
 
 
     /**
@@ -127,22 +81,25 @@ class Videos extends Base
         $data = input("post.");
         //数据需要检验， validata 机制
         //入库操作
+$name= model('VideosClass')->where('class_name');
+
+       dump($name);
 
         try {
-            $id = model('Videos')->add($data);
+            $id = model('VideosChapter')->add($data);
 
         } catch (\Exception $exception) {
-            return $this->result('', 0, '新增失败');
+            return $this->result($exception->getMessage(), 0, $exception->getMessage());
         }
         if ($id) {
-            return $this->result(['jump_url' => url('videos/index')], 1, 'ok');
+            return $this->result(['jump_url' => url('videos_chapter/index')], 1, 'ok');
         } else {
             return $this->result('', 0, '新增失败');
         }
 
     } else {
         return $this->fetch('', [
-            'videos_cats' => config('cat.video_lists')
+
         ]);
     }
 }
@@ -151,31 +108,24 @@ class Videos extends Base
 
     public function update(Request $request)
     {
-//        dump($request);
-
         if (request()->isPost()) {
             $data = input("post.");
             $edit_id=$request->param('id');
 //入库操作
 
             try {
-                $id = model('Videos')
+                $id = model('VideosChapter')
                     ->where('id', $edit_id)
                     ->update(
-                        ['title' => $data['title'],
-                            'small_title' => $data['small_title'],
-                            'catid' => $data['catid'],
-                            'description' => $data['description'],
-                            'is_allowcomments' => $data['is_allowcomments'],
-                            'is_position' => $data['is_position'],
-                            'video' => $data['video'],
-                            'content' => $data['content'],
+                        [
+                            'class_img' => $data['class_img'],
+                            'chapter_watch' => $data['chapter_watch'],
                         ]
                     );
 
             } catch (\Exception $exception) {
 
-                return $this->result('', 0, '修改失败');
+                return $this->result('', 0, $exception->getMessage());
             }
             if (!empty($id)) {
                 return $this->result(['jump_url' => url('videos/index')], 1, 'ok');
@@ -195,6 +145,31 @@ class Videos extends Base
 
 
 
+
+
+    public function videos_watch()
+    {
+//tp5 validata 机制 校验  id status
+        $data = input('param.');
+//        通过id 去库中查询下记录是否存在
+        //model('News') ->get($data['id'])
+        $model = $this->model ? $this->model : request()->controller();
+//        echo  $model;
+
+        try {
+            $res = model($model)
+                ->save(['videos_watch' => $data['videos_watch']], ['id' => $data['id']]);
+        } catch (\Exception $exception) {
+            return $this->result('', 0, $exception->getMessage());
+        }
+        if ($res) {
+            return $this->result(['jump_url' => $_SERVER['HTTP_REFERER']], 1, 'OK');
+
+        }
+        return $this->result('', 0, '修改失败');
+
+
+    }
 
 
     public function welcome()

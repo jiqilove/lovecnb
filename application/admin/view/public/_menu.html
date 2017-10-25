@@ -1,5 +1,5 @@
 <aside class="Hui-aside">
-	<div class="menu_dropdown bk_2">
+	<dd class="menu_dropdown bk_2">
 		<dl id="menu-article">
 			<dt><i class="Hui-iconfont">&#xe616;</i> 公告管理<i class="Hui-iconfont menu_dropdown-arrow">&#xe6d5;</i></dt>
 			<dd>
@@ -22,20 +22,34 @@
 
 
 		<dl id="menu-video">
-			<dt><i class="Hui-iconfont">&#xe62d;</i> 视频管理<i class="Hui-iconfont menu_dropdown-arrow">&#xe6d5;</i></dt>
-			<dd>
+
+			<dt><i class="Hui-iconfont">&#xe62d;</i> 课程管理<i class="Hui-iconfont menu_dropdown-arrow">&#xe6d5;</i></dt>
+			<ul>
+				课程
+				<ul>
+					<li><a data-href="{:url('videosClass/add')}" data-title="添加课程" href="javascript:void(0)">添加课程</a>					</li>
+					<li><a data-href="{:url('videosClass/index')}" data-title="课程管理" href="javascript:void(0)">课程管理</a>					</li>
+				</ul>
+
+
+				章节
+				<ul>
+					<li><a data-href="{:url('videosChapter/add')}" data-title="添加视频" href="javascript:void(0)">添加视频</a></li>
+					<li><a data-href="{:url('videosChapter/index')}" data-title="内容管理" href="javascript:void(0)">视频管理</a></li>
+				</ul>
+
+
+				视频
 				<ul>
 					<li><a data-href="{:url('videos/add')}" data-title="添加视频" href="javascript:void(0)">添加视频</a></li>
 					<li><a data-href="{:url('videos/index')}" data-title="内容管理" href="javascript:void(0)">视频管理</a></li>
 				</ul>
 
 
-			</dd>
+
+
+			</ul>
 		</dl>
-
-
-
-
 
 
 		<dl id="menu-admin">
@@ -60,7 +74,7 @@
 
 
 
-		<dl id="menu-students">
+		<dl id="menu-teacher">
 			<dt><i class="Hui-iconfont">&#xe62d;</i> 教师信息管理<i class="Hui-iconfont menu_dropdown-arrow">&#xe6d5;</i></dt>
 			<dd>
 				<ul>

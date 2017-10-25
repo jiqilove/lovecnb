@@ -21,6 +21,43 @@ class Base extends Controller
 
 
 
+
+
+
+
+
+    /**
+     * 上传七妞云
+     */
+    public function upload()
+    {
+
+        try {
+            $image = Upload::image();
+        }catch (\Exception $exception){
+            echo json_encode(['status' => 0, 'message' => $exception->getMessage()]);
+        }
+        if($image){
+
+            $data = [
+                'status' => 1,
+                'message' => 'ok',
+                'data' => config('qiniu.image_url').'/'.$image,
+                //本地核域名之间的存在不同
+                //
+            ];
+            echo json_encode($data);
+        }else {
+            echo json_encode(['status' => 0, 'message' => '上传失败']);
+        }
+
+
+    }
+
+
+
+
+
     /**
      * 初始化的方法
      */
@@ -76,7 +113,7 @@ class Base extends Controller
         //如果表和控制器文件名是一致 所以就可以使用  news  news
         //但是我们现在使用的这个表 和 控制器名是不一样的 所以要使用另外一个方法
         $model = $this->model ? $this->model : request()->controller();
-
+dump($model);
         try {
             $res = model($model)->save(['status' => -1], ['id' => $id]);
         } catch (\Exception $exception) {

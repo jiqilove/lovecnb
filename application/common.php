@@ -174,3 +174,19 @@ function manager_status($id, $manager_status)
     return $str;
 
 }
+
+function videos_watch($id, $videos_watch)
+{
+    $controller = request()->controller();          //获取控制器
+
+    $sta = $videos_watch == 1 ? 0 : 1;
+    //最终修改的地址状态
+    $url =url($controller.'/videos_watch',['id'=>$id,'videos_watch'=>$sta]);
+    if($videos_watch ==1){
+        $str ="<a href='javascript:;' title='修改状态' status_url='".$url. " ' onclick='app_status(this)'      > <span  class ='label label-success radius '>允许观看</span></a>";
+    }else if  ($videos_watch ==0){
+        $str ="<a href='javascript:;' title='修改状态' status_url='".$url. " ' onclick='app_status(this)'      > <span  class ='label label-danger radius '>未可观看</span></a>";
+    }
+    return $str;
+
+}
