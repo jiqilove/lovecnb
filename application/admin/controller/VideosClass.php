@@ -84,7 +84,7 @@ class VideosClass extends Base
             return $this->result($exception->getMessage(), 0, $exception->getMessage());
         }
         if ($id) {
-            return $this->result(['jump_url' => url('videosclass/index')], 1, 'ok');
+            return $this->result(['jump_url' => url('videos_class/index')], 1, 'ok');
         } else {
             return $this->result('', 0, '新增失败');
         }

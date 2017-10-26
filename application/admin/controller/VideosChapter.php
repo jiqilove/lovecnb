@@ -10,17 +10,6 @@ class VideosChapter extends Base
 {
 
 
-
-
-
-
-
-
-
-
-
-
-
     public function index()
     {
 
@@ -31,7 +20,7 @@ class VideosChapter extends Base
         $query = http_build_query($data);
 //        halt($data);   //这句话测试 能都打印搜索到的时间的起止 类型 以及具体相关标题内容
         //转换查询条件
-$whereData=[];
+        $whereData = [];
         /**
          * 时间条件
          */
@@ -57,7 +46,7 @@ $whereData=[];
         $pageTotal = ceil($total / $this->size);
         return $this->fetch('', [
 
-            'videos' =>  $chapter,
+            'videos' => $chapter,
             'pageTotal' => $pageTotal,
             'curr' => $this->page,
             'start_time' => empty($data['start_time']) ? '' : $data['start_time'],
@@ -69,48 +58,47 @@ $whereData=[];
     }
 
 
-
-
     /**
      * 增加功能
      * @return mixed|
      */
     public function add()
-{
-    if (request()->isPost()) {
-        $data = input("post.");
-        //数据需要检验， validata 机制
-        //入库操作
-$name= model('VideosClass')->where('class_name');
+    {
+        $classList = model('VideosClass')
+            ->where('status', 1)
+            ->column('class_name','id');
+//返回以 id为索引的 name 列 数据
 
-       dump($name);
+        if (request()->isPost()) {
+            $data = input("post.");
+            //数据需要检验， validata 机制
+            //入库操作
+            dump($data);
+            try {
+                $id = model('VideosChapter')->add($data);
 
-        try {
-            $id = model('VideosChapter')->add($data);
+            } catch (\Exception $exception) {
+                return $this->result($exception->getMessage(), 0, $exception->getMessage());
+            }
+            if ($id) {
+                return $this->result(['jump_url' => url('videos_chapter/index')], 1, 'ok');
+            } else {
+                return $this->result('', 0, '新增失败');
+            }
 
-        } catch (\Exception $exception) {
-            return $this->result($exception->getMessage(), 0, $exception->getMessage());
-        }
-        if ($id) {
-            return $this->result(['jump_url' => url('videos_chapter/index')], 1, 'ok');
         } else {
-            return $this->result('', 0, '新增失败');
+            return $this->fetch('', [
+                'className' => $classList,
+            ]);
         }
-
-    } else {
-        return $this->fetch('', [
-
-        ]);
     }
-}
-
 
 
     public function update(Request $request)
     {
         if (request()->isPost()) {
             $data = input("post.");
-            $edit_id=$request->param('id');
+            $edit_id = $request->param('id');
 //入库操作
 
             try {
@@ -134,17 +122,12 @@ $name= model('VideosClass')->where('class_name');
             }
 
 
-        }
-
-        else {
+        } else {
             return $this->fetch('videos/index', [
 
             ]);
         }
     }
-
-
-
 
 
     public function videos_watch()
