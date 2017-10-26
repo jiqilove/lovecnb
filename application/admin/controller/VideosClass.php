@@ -37,6 +37,14 @@ class VideosClass extends Base
                 ['lt', strtotime($data['end_time'])],
             ];
         }
+        /**
+         * 标题搜索条件
+         */
+        if (!empty($data['class_name'])) {
+            $whereData['class_name'] = ['like', '%' . $data['class_name'] . '%'];
+        }
+
+
 
 
         $this->getPageAndSize($data);
@@ -107,7 +115,7 @@ class VideosClass extends Base
             $edit_id=$request->param('id');
 //入库操作
 
-            dump($data);
+
             try {
                 $id = model('VideosClass')
                     ->where('id', $edit_id)
@@ -167,6 +175,7 @@ class VideosClass extends Base
 
 
     }
+
 
 
     public function welcome()

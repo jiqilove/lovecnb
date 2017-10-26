@@ -69,11 +69,19 @@ class Videos extends Base
             ];
         }
         /**
-         * 栏目搜索条件
+         * 课程栏目搜索条件
          */
-        if (!empty($data['catid'])) {
-            $whereData ['catid'] = intval($data['catid']);
+        if (!empty($data['vclass'])) {
+            $whereData ['vclass'] = intval($data['vclass']);
         }
+        /**
+         * 章节栏目搜索条件
+         */
+        if (!empty($data['vchapter'])) {
+            $whereData ['vchapter'] = intval($data['vchapter']);
+        }
+
+
         /**
          * 标题搜索条件
          */
@@ -103,7 +111,9 @@ class Videos extends Base
         //结合总数+size  =》 有多少页
         $pageTotal = ceil($total / $this->size);
         return $this->fetch('', [
-            'videos_cats' => config('cat.video_lists'),
+            'className1' => $this->getClassName(),
+
+
             'videos' => $videos,
             'pageTotal' => $pageTotal,
             'curr' => $this->page,
@@ -117,12 +127,31 @@ class Videos extends Base
     }
 
 
+
     /**
      * 增加功能
      * @return mixed|
      */
     public function add()
-{
+    {
+        //查询所有课程下可以观看的视频的名字以及他们对应的Id
+//        $classList = model('VideosClass')
+//            ->where('status', 1)
+//            ->column('class_name', 'id');
+
+
+
+//        //查询所有可以观看的视频的id
+//        $classListid = model('VideosClass')
+//            ->where('status', 1)
+//            ->column('id'); $chapterList = [];
+//        for ($i = 0; $i < sizeof($classListid); $i++) {
+//        $chapterList[$i] = model('VideosChapter')
+//            ->where('videos_class_id', $classListid[$i])
+//            ->column('chapter_name','id');
+//    }
+
+
     if (request()->isPost()) {
         $data = input("post.");
         //数据需要检验， validata 机制
@@ -142,12 +171,11 @@ class Videos extends Base
 
     } else {
         return $this->fetch('', [
-            'videos_cats' => config('cat.video_lists')
+            'className' => $this->getClassName(),
+
         ]);
     }
 }
-
-
 
     public function update(Request $request)
     {
@@ -162,9 +190,9 @@ class Videos extends Base
                 $id = model('Videos')
                     ->where('id', $edit_id)
                     ->update(
-                        ['title' => $data['title'],
-                            'small_title' => $data['small_title'],
-                            'catid' => $data['catid'],
+                        ['vclass' => $data['vclass'],
+                            'vchapter' => $data['vchapter'],
+
                             'description' => $data['description'],
                             'is_allowcomments' => $data['is_allowcomments'],
                             'is_position' => $data['is_position'],
@@ -201,4 +229,20 @@ class Videos extends Base
     {
         return "hello word";
     }
+
+
+    public function getChapter($id){
+        $Chapter = model('VideosChapter')
+            ->where('videos_class_id',$id)->column('	id,chapter_name');
+        return json($Chapter);
+    }
+
+    public function  getClassName (){
+        $classList = model('VideosClass')
+            ->where('status', 1)
+            ->column('class_name', 'id');
+
+        return $classList;
+    }
+
 }

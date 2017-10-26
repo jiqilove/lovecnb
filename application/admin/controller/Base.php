@@ -113,7 +113,7 @@ class Base extends Controller
         //如果表和控制器文件名是一致 所以就可以使用  news  news
         //但是我们现在使用的这个表 和 控制器名是不一样的 所以要使用另外一个方法
         $model = $this->model ? $this->model : request()->controller();
-dump($model);
+
         try {
             $res = model($model)->save(['status' => -1], ['id' => $id]);
         } catch (\Exception $exception) {
@@ -133,17 +133,20 @@ dump($model);
      *
      */
     public function edit()
-    {        $data = input('param.');
-
+    {
+        $data = input('param.');
         $edit_id=$data['id'];
         $model = $this->model ? $this->model : request()->controller();
+        $classList = model('VideosClass') ->where('status', 1) ->column('class_name', 'id');
 
         $contant = model($model)
-
             ->where('id', $data['id'])
             ->select();
         $good=$contant[0];
         return $this->fetch('',[
+
+
+            'className' => $classList,
             'cats' => config('cat.lists'),
             'stu_cats_college'=>config('cat.college_lists'),
             'stu_cats_major'=>config('cat.major_lists'),

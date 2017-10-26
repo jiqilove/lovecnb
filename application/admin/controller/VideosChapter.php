@@ -32,6 +32,16 @@ class VideosChapter extends Base
             ];
         }
 
+        /**
+         * 标题搜索条件
+         */
+        if (!empty($data['chapter_name'])) {
+            $whereData['chapter_name'] = ['like', '%' . $data['chapter_name'] . '%'];
+        }
+
+
+
+
 
         $this->getPageAndSize($data);
 
@@ -155,8 +165,32 @@ class VideosChapter extends Base
     }
 
 
+
+
     public function welcome()
     {
         return "hello word";
     }
+
+    public function chapter_watch()
+    {
+        $data = input('param.');
+        $model = $this->model ? $this->model : request()->controller();
+
+        try {
+            $res = model($model)
+                ->save(['chapter_watch' => $data['chapter_watch']], ['id' => $data['id']]);
+        } catch (\Exception $exception) {
+            return $this->result('', 0, $exception->getMessage());
+        }
+        if ($res) {
+            return $this->result(['jump_url' => $_SERVER['HTTP_REFERER']], 1, 'OK');
+
+        }
+        return $this->result('', 0, '修改失败');
+
+
+    }
+
+
 }

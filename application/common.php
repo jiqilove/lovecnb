@@ -91,6 +91,28 @@ function getSexCatName($sex)
 
 
 
+function vclassName ($vclass){
+
+    $res = model('VideosClass')
+        ->where('id',$vclass)
+        ->column('class_name');
+
+return $res[0];
+}
+
+
+function vChapterName ($vchapter){
+
+    $res = model('VideosChapter')
+        ->where('id',$vchapter)
+        ->column('chapter_name');
+
+    return $res[0];
+}
+
+
+
+
 /**
  * 是否推荐
  *
@@ -123,7 +145,9 @@ function isRecommend($recommend)
  */
 function status($id, $status)
 {
-    $controller = request()->controller();          //获取控制器
+    $controller = request()->controller();
+
+    //获取控制器
     $sta = $status == 1 ? 0 : 1;                    //最终修改的地址状态
     $url =url($controller.'/status',['id'=>$id,'status'=>$sta]);
     if($status ==1){
@@ -185,6 +209,21 @@ function videos_watch($id, $videos_watch)
     if($videos_watch ==1){
         $str ="<a href='javascript:;' title='修改状态' status_url='".$url. " ' onclick='app_status(this)'      > <span  class ='label label-success radius '>允许观看</span></a>";
     }else if  ($videos_watch ==0){
+        $str ="<a href='javascript:;' title='修改状态' status_url='".$url. " ' onclick='app_status(this)'      > <span  class ='label label-danger radius '>未可观看</span></a>";
+    }
+    return $str;
+
+}
+function chapter_watch($id, $chapter_watch)
+{
+    $controller = request()->controller();          //获取控制器
+
+    $sta = $chapter_watch == 1 ? 0 : 1;
+    //最终修改的地址状态
+    $url =url($controller.'/chapter_watch',['id'=>$id,'chapter_watch'=>$sta]);
+    if($chapter_watch ==1){
+        $str ="<a href='javascript:;' title='修改状态' status_url='".$url. " ' onclick='app_status(this)'      > <span  class ='label label-success radius '>允许观看</span></a>";
+    }else if  ($chapter_watch ==0){
         $str ="<a href='javascript:;' title='修改状态' status_url='".$url. " ' onclick='app_status(this)'      > <span  class ='label label-danger radius '>未可观看</span></a>";
     }
     return $str;

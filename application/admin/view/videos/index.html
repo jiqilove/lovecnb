@@ -6,19 +6,30 @@
   <div class="text-c">
     <form action="{:url('videos/index')}" method="get">
    <span class="select-box inline">
-    <select name="catid" class="select">
-          <option value="0">全部分类</option>
-{volist name ="videos_cats" id="vo"}
-          <option value="{$key}"{if condition="$key eq $catid"}selected="selected" {/if} > {$vo}</option>
+    <select name="vclass" class="select" style="margin-right: 10px" onchange="cChange(this.value)">
+          <option value="0">课程名称</option>
+{volist name ="className1" id="vo"}
+          <option   value="{$key}"{if condition="$key eq $catid"}selected="selected" {/if} > {$vo}</option>
 {/volist}
         </select>
+   </span>
+        <span class="select-box inline" style="margin-right: 10px">
+ <select name="vchapter" class="select" id="vchapter">
+          <option value="0">章节名称</option>
+
+        </select>
+
+        </span>
+
+
     </span> 日期范围：
       <input type="text" name="start_time" class="input-text" id="countTimestart" onfocus="selecttime(1)" value="{$start_time}" style="width:120px;" >
       -
       <input type="text" name="end_time" class="input-text" id="countTimestart" onfocus="selecttime(1)" value="{$end_time}"  style="width:120px;">
 
-      <input type="text" name="title" id="" value="" placeholder=" 资讯名称" style="width:250px" class="input-text">
-      <button name="" id="" class="btn btn-success" type="submit"><i class="Hui-iconfont">&#xe665;</i> 搜资讯</button>
+
+         <button name="" id="" class="btn btn-success" type="submit"><i class="Hui-iconfont">&#xe665;</i> 搜资讯</button>
+
     </form>
   </div>
 
@@ -28,8 +39,8 @@
       <tr class="text-c">
         <th width="25"><input type="checkbox" name="" value=""></th>
         <th width="80">ID</th>
-        <th>标题</th>
-        <th width="80">分类</th>
+        <th width="80">课程名称</th>
+        <th width="80">章节名字</th>
         <th width="80">缩图</th>
         <th width="120">更新时间</th>
         <th width="60">是否推荐</th>
@@ -42,8 +53,12 @@
       <tr class="text-c">
         <td><input type="checkbox" value="" name=""></td>
         <td> {$vo.id}</td>
-        <td class="text-l"><u style="cursor:pointer" class="text-primary"  title="查看">{$vo.title}</u></td>
-        <td>{$vo.catid|getVideoCatName}</td>
+
+        <td class="text-l"><u style="cursor:pointer" class="text-primary"  title="查看">{$vo.vclass|vclassName}</u></td>
+
+        <td class="text-l"><u style="cursor:pointer" class="text-primary"  title="查看">{$vo.vchapter|vChapterName}</u></td>
+
+
         <td><img width="60" height="60" class="picture-thumb" src="{$vo.video}"></td>
         <td>{$vo.update_time}</td>
         <td>{$vo.is_position|isRecommend}</td>
@@ -51,7 +66,7 @@
         <td class="f-14 td-manage">
 
 
-            <a style="text-decoration:none" class="ml-5" onClick="article_edit( '{$vo.title}' ,'edit','{$vo.id}','{$vo.catid}' )"  href="javascript:;" title="编辑"   ><i class="Hui-iconfont">&#xe6df;</i></a>
+            <a style="text-decoration:none" class="ml-5" onClick="article_edit( '' ,'edit','{$vo.id}','' )"  href="javascript:;" title="编辑"   ><i class="Hui-iconfont">&#xe6df;</i></a>
 
 
 
@@ -75,6 +90,27 @@
 <script type="text/javascript" src="__STATIC__/hadmin/lib/My97DatePicker/4.8/WdatePicker.js"></script>
 <script type="text/javascript" src="__STATIC__/hadmin/lib/laypage/1.2/laypage.js"></script>
 <script type="text/javascript">
+
+
+    function cChange (a){
+        var class_id=a;//获取到视频课程名称的id
+        var c = $('#vchapter');
+        c.html('');
+//
+        $.ajax({
+            url: 'getChapter?id='+class_id,
+            method: 'GET',
+            success: function (data) {
+//
+                $.each(data,function (key, value) {
+                    c.append('<option  value="' + key + '">' +value + '</option>')
+                })
+            }
+        });
+    }
+
+
+
 
     var url='{:url("videos/index")}'+'?{$query}';
 
