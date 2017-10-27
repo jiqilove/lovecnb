@@ -4,6 +4,7 @@
 namespace app\admin\controller;
 
 use think\Controller;
+use think\Db;
 use think\Request;
 
 class Students extends Base
@@ -28,6 +29,13 @@ class Students extends Base
         if (!empty($data['college'])) {
             $whereData ['college'] = intval($data['college']);
         }
+
+
+        if (!empty($data['major'])) {
+            $whereData ['major'] = intval($data['major']);
+        }
+
+
         /**
          * 标题搜索条件
          */
@@ -48,7 +56,7 @@ class Students extends Base
         $pageTotal = ceil($total / $this->size);
         return $this->fetch('', [
             'cats_college' => config('cat.college_lists'),
-
+'collegeName1'=>$this->getCollegeName(),
             'students' => $student,
             'pageTotal' => $pageTotal,
             'curr' => $this->page,
@@ -66,6 +74,13 @@ class Students extends Base
     public function add()
 {
 
+    $stu_college=Db::name('College')
+        ->where('status','1')
+        ->column('college_name','id');
+
+
+
+
     if (request()->isPost()) {
         $data = input("post.");
                 $validate = validate('StudentsAdd');
@@ -76,7 +91,7 @@ class Students extends Base
         $data['password'] = md5($data['password'] . '_#sing_ty');
         $data ['status'] = 1;
         
-        dump($data);
+
         try {
             $id = model('Students')->add($data);
 
@@ -94,7 +109,7 @@ class Students extends Base
 
         return $this->fetch('', [
             'stu_cats_major' => config('cat.major_lists'),
-            'stu_cats_college' => config('cat.college_lists'),
+            'stu_cats_college' =>$stu_college,
             'cats_sex' => config('cat.sex_lists')
         ]);
     }
@@ -109,7 +124,7 @@ class Students extends Base
         if (request()->isPost()) {
             $data = input("post.");
             $edit_id=$request->param('id');
-
+dump($data);
 //入库操作
 
             try {
@@ -153,6 +168,21 @@ class Students extends Base
     }
 
 
+    public function getCollegeClassName($id){
+        $College = Db::name('CollegeClass')
+            ->where('college_id',$id)
+            ->column('	id,college_class_name');
+        return json($College);
+    }
+
+    public function  getCollegeName (){
+        $stu_college=Db::name('College')
+            ->where('status','1')
+            ->column('college_name', 'id');
+
+
+        return $stu_college;
+    }
 
     public function welcome()
     {

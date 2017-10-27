@@ -1,5 +1,5 @@
 <aside class="Hui-aside">
-	<dd class="menu_dropdown bk_2">
+	<dd class="menu_dropdown bk_2 Huifold">
 		<dl id="menu-article">
 			<dt><i class="Hui-iconfont">&#xe616;</i> 公告管理<i class="Hui-iconfont menu_dropdown-arrow">&#xe6d5;</i></dt>
 			<dd>
@@ -21,28 +21,30 @@
 		</dl>
 
 
-		<dl id="menu-video">
+		<dl id="menu-video" >
 
 			<dt><i class="Hui-iconfont">&#xe62d;</i> 课程管理<i class="Hui-iconfont menu_dropdown-arrow">&#xe6d5;</i></dt>
-			<ul>
-				课程
-				<ul>
+			<ul class="Huifold">
+				<dt style="margin-left: 10%"><i class="Hui-iconfont">&#xe62d;</i> 课程<i class="Hui-iconfont menu_dropdown-arrow">&#xe6d5;</i></dt>
+
+				<ul  class="text-c Huifold" >
 					<li><a data-href="{:url('videosClass/add')}" data-title="添加课程" href="javascript:void(0)">添加课程</a>					</li>
 					<li><a data-href="{:url('videosClass/index')}" data-title="课程管理" href="javascript:void(0)">课程管理</a>					</li>
 				</ul>
 
+				<dt style="margin-left: 10%"><i class="Hui-iconfont Hui-iconfont-yuedu">&#xe62d;</i> 章节<i class="Hui-iconfont menu_dropdown-arrow">&#xe6d5;</i></dt>
 
-				章节
-				<ul>
-					<li><a data-href="{:url('videosChapter/add')}" data-title="添加视频" href="javascript:void(0)">添加章节</a></li>
-					<li><a data-href="{:url('videosChapter/index')}" data-title="内容管理" href="javascript:void(0)">章节管理</a></li>
+				<ul class="text-c">
+					<li><a data-href="{:url('videosChapter/add')}" data-title="添加章节" href="javascript:void(0)">添加章节</a></li>
+					<li><a data-href="{:url('videosChapter/index')}" data-title="章节管理" href="javascript:void(0)">章节管理</a></li>
 				</ul>
 
+				<dt style="margin-left: 10%"><i class="Hui-iconfont Hui-iconfont-phone">&#xe62d;</i> 视频<i class="Hui-iconfont menu_dropdown-arrow">&#xe6d5;</i></dt>
 
-				视频
-				<ul>
+
+				<ul class="text-c">
 					<li><a data-href="{:url('videos/add')}" data-title="添加视频" href="javascript:void(0)">添加视频</a></li>
-					<li><a data-href="{:url('videos/index')}" data-title="内容管理" href="javascript:void(0)">视频管理</a></li>
+					<li><a data-href="{:url('videos/index')}" data-title="视频管理" href="javascript:void(0)">视频管理</a></li>
 				</ul>
 
 
@@ -87,6 +89,10 @@
 
 
 
-	</div>
+
+
+
+
 </aside>
+
 <div class="dislpayArrow hidden-xs"><a class="pngfix" href="javascript:void(0);" onClick="displaynavbar(this)"></a></div>

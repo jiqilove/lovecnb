@@ -5,14 +5,26 @@
 <div class="page-container">
   <div class="text-c">
     <form action="{:url('students/index')}" method="get">
-   <span class="select-box inline">
-    <select name="college" class="select">
-          <option value="0">学院栏目</option>
-{volist name ="cats_college" id="voo"}
-          <option value="{$key}"{if condition="$key eq $cats_college"}selected="selected" {/if} > {$voo}</option>
-{/volist}
+
+        <span class="select-box inline">
+    <select name="college" class="select" style="margin-right: 10px" onchange="cChange(this.value)">
+          <option value="0">学院名称</option>
+                {volist name ="collegeName1" id="vo"}
+          <option   value="{$key}"{if condition="$key eq 0"}selected="selected" {/if} > {$vo}</option>
+                {/volist}
         </select>
-    </span>
+            </span>
+        <span class="select-box inline" style="margin-right: 10px">
+
+            <select name="major" class="select" id="major">
+
+ <option value="0">请先选择学院</option>
+             </select>
+            </span>
+
+
+
+
 
       <input type="text" name="studentNum" id="studentNum" value="" placeholder=" 填写学号" style="width:250px" class="input-text">
       <button name="" id="" class="btn btn-success" type="submit"><i class="Hui-iconfont">&#xe665;</i> 搜资讯</button>
@@ -25,13 +37,13 @@
       <tr class="text-c">
         <th width="25"><input type="checkbox" name="" value=""></th>
         <th width="20">ID</th>
-        <th>学号</th>
+        <th  width="60">学号</th>
         <th width="60">名字</th>
-        <th width="60">学院</th>
-        <th width="60">专业</th>
+        <th width="100">学院</th>
+        <th width="100">专业</th>
         <th width="30">性别</th>
         <th width="80">出生日期</th>
-        <th width="120">电话</th>
+        <th width="100">电话</th>
         <th width="120">邮箱</th>
         <th width="120">地址</th>
         <th width="60">编辑</th>
@@ -44,9 +56,15 @@
         <td> {$vo.id}</td>
         <td class="text-l"><u style="cursor:pointer" class="text-primary"  title="查看">{$vo.studentNum}</u></td>
           <td> {$vo.stu_name}</td>
-        <td>{$vo.college|getMajorCatName}</td>
-        <td>{$vo.major|getCollegeCatName}</td>
-        <td>{$vo.sex|getSexCatName}</td>
+
+
+          <td class="text-l"><u style="cursor:pointer" class="text-primary"  title="查看">{$vo.college|scollege}</u></td>
+          <td class="text-l"><u style="cursor:pointer" class="text-primary"  title="查看">{$vo.major|smajor}</u></td>
+
+
+
+
+          <td>{$vo.sex|getSexCatName}</td>
         <td>{$vo.birthday}</td>
           <td>{$vo.phone}</td>
         <td>{$vo.email}</td>
@@ -85,6 +103,27 @@
 <script type="text/javascript" src="__STATIC__/hadmin/lib/laypage/1.2/laypage.js"></script>
 {load href="__STATIC__/admin/js/common.js" /}
 <script type="text/javascript">
+
+
+    function cChange (a){
+        var college_id=a;//获取到视频课程名称的id
+        var c = $('#major');
+
+//                   alert(class_id)
+//                        console.log(college_id);
+        c.html('');//如果没有清楚的话，那么选择的数据都会叠加到一起本来12 或 34  结果就会成  1234
+        $.ajax({
+            url: 'getCollegeClassName?id='+college_id,
+            method: 'GET',
+            success: function (data) {
+//                                console.log(data);
+                $.each(data,function (key, value) {
+                    c.append('<option  value="' + key + '" {if  condition ="$key"}  {/if} >'        +value + '</option>')
+                })
+            }
+        });
+    }
+
 
     var url='{:url("students/index")}'+'?{$query}';
 

@@ -12,10 +12,10 @@
             <div class="formControls col-xs-8 col-sm-9">
      <span class="select-box">
 
-				<select name="vclass" class="select"  onchange="cChange(this.value)">
-                     <option value="0" id="">请选择</option>
+				<select name="vclass" class="select"  onclick="cChange(this.value)">
+
                        {volist name="className" id="vo"}
-                              <option value="{$key}" id="class1">{$vo}</option>
+                       <option value="{$key}"{if condition="$key eq $voo.vclass"}selected="selected" {/if} > {$vo}</option>
                       {/volist}
 
                 </select>
@@ -127,7 +127,7 @@
                     function cChange (a){
                         var class_id=a;//获取到视频课程名称的id
                         var c = $('#vchapter');
-                        c.html('');
+
 //                   alert(class_id)
 //                        console.log(class_id);
                         $.ajax({
@@ -136,7 +136,7 @@
                             success: function (data) {
 //                                console.log(data);
                                 $.each(data,function (key, value) {
-                                    c.append('<option  value="' + key + '">' +value + '</option>')
+                                    c.append('<option  value="' + key + '" {if  condition ="$key"}  {/if} >'        +value + '</option>')
                                 })
                             }
                         });

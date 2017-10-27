@@ -6,6 +6,8 @@
   <div class="text-c">
     <form action="{:url('videos/index')}" method="get">
    <span class="select-box inline">
+
+
     <select name="vclass" class="select" style="margin-right: 10px" onchange="cChange(this.value)">
           <option value="0">课程名称</option>
 {volist name ="className1" id="vo"}
@@ -15,9 +17,8 @@
    </span>
         <span class="select-box inline" style="margin-right: 10px">
  <select name="vchapter" class="select" id="vchapter">
-          <option value="0">章节名称</option>
-
-        </select>
+          <option value="0">请先选择课程</option>
+ </select>
 
         </span>
 
@@ -54,9 +55,10 @@
         <td><input type="checkbox" value="" name=""></td>
         <td> {$vo.id}</td>
 
-        <td class="text-l"><u style="cursor:pointer" class="text-primary"  title="查看">{$vo.vclass|vclassName}</u></td>
 
+        <td class="text-l"><u style="cursor:pointer" class="text-primary"  title="查看">{$vo.vclass|vclassName}</u></td>
         <td class="text-l"><u style="cursor:pointer" class="text-primary"  title="查看">{$vo.vchapter|vChapterName}</u></td>
+
 
 
         <td><img width="60" height="60" class="picture-thumb" src="{$vo.video}"></td>

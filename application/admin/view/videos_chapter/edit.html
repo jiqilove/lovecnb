@@ -1,18 +1,31 @@
 <!--header-->
 {include file="public/_meta" /}
+
 <article class="page-container">
-    {volist name ="contant" id="voo" }
-    <form class="form form-horizontal" id="form-singwaapp" url="{:url('videos_class/update',['id'=>$voo['id']])}">
+    <form class="form form-horizontal" id="form-singwaapp" url="{:url('videos_chapter/add')}">
+
+        {volist name ="contant" id="voo" }
+        <div class="row cl">
+
+            <label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>章节名称：</label>
+            <div class="formControls col-xs-8 col-sm-5">
+                <select name="videos_class_id" class="select">
+
+                    {volist name ="className" id="vo"}
+                    <option value="{$key}"{if condition="$key eq $voo.videos_class_id"}selected="selected" {/if} > {$vo}</option>
+                    {/volist}
+                </select>
+            </div>
+        </div>
 
 
         <div class="row cl">
 
-        <label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>课程名字：</label>
-        <div class="formControls col-xs-8 col-sm-5">
-            <input type="text" class="input-text" value="{$voo.class_name}" placeholder="" id="class_name" name="class_name">
+            <label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>章节名称：</label>
+            <div class="formControls col-xs-8 col-sm-5">
+                <input type="text" class="input-text" value="{$voo.chapter_name}" placeholder="" id="chapter_name" name="chapter_name">
+            </div>
         </div>
-        </div>
-
 
 
 
@@ -26,81 +39,62 @@
             </div>
         </div>
 
+
+
         <div class="row cl">
-            <label class="form-label col-xs-4 col-sm-2">课程首页图：</label>
-            <div class="formControls col-xs-8 col-sm-9">
-                <input id="file_upload" type="file" multiple="true">
-                <img style="" id="upload_org_code_img" src="" width="150" height="150">
-                <input id="file_upload_image" name="class_img" type="hidden" multiple="true" value="{$voo.class_img}">
+            <div class="col-xs-8 col-sm-9 col-xs-offset-4 col-sm-offset-2">
+                <button  class="btn btn-secondary radius" type="submit"><i class="Hui-iconfont">&#xe632;</i> 新建章节</button>
+                <button onClick="removeIframe();" class="btn btn-default radius" type="button">&nbsp;&nbsp;取消&nbsp;&nbsp;</button>
             </div>
         </div>
+        {/volist}
+    </form>
+</article>
 
-        <div class="row cl">
-                    <div class="col-xs-8 col-sm-9 col-xs-offset-4 col-sm-offset-2">
-                    <button  class="btn btn-secondary radius" type="submit"><i class="Hui-iconfont">&#xe632;</i> 保存</button>
-                <button onClick="removeIframe();" class="btn btn-default radius" type="button">&nbsp;&nbsp;取消&nbsp;&nbsp;</button>
-                </div>
-                </div>
+<!--header-->
+{include file="public/_footer" /}
 
-                </form>
-                {/volist}
-                </article>
+<!--请在下方写此页面业务相关的脚本-->
+<script type="text/javascript" src="__STATIC__/hadmin/lib/jquery.validation/1.14.0/jquery.validate.js"></script>
+<script type="text/javascript" src="__STATIC__/hadmin/lib/jquery.validation/1.14.0/validate-methods.js"></script>
+<script type="text/javascript" src="__STATIC__/hadmin/lib/jquery.validation/1.14.0/messages_zh.js"></script>
+<script type="text/javascript" src="__STATIC__/hadmin/lib/ueditor/1.4.3/ueditor.config.js"></script>
+<script type="text/javascript" src="__STATIC__/hadmin/lib/ueditor/1.4.3/ueditor.all.min.js"> </script>
+<script type="text/javascript" src="__STATIC__/hadmin/lib/ueditor/1.4.3/lang/zh-cn/zh-cn.js"></script>
+{load href="__STATIC__/admin/uploadify/jquery.uploadify.min.js" /}
 
-                <!--header-->
-                {include file="public/_footer" /}
 
-                <!--请在下方写此页面业务相关的脚本-->
-                <script type="text/javascript" src="__STATIC__/hadmin/lib/jquery.validation/1.14.0/jquery.validate.js"></script>
-                <script type="text/javascript" src="__STATIC__/hadmin/lib/jquery.validation/1.14.0/validate-methods.js"></script>
-                <script type="text/javascript" src="__STATIC__/hadmin/lib/jquery.validation/1.14.0/messages_zh.js"></script>
-                <script type="text/javascript" src="__STATIC__/hadmin/lib/ueditor/1.4.3/ueditor.config.js"></script>
-                <script type="text/javascript" src="__STATIC__/hadmin/lib/ueditor/1.4.3/ueditor.all.min.js"> </script>
-                <script type="text/javascript" src="__STATIC__/hadmin/lib/ueditor/1.4.3/lang/zh-cn/zh-cn.js"></script>
-                {load href="__STATIC__/admin/uploadify/jquery.uploadify.min.js" /}
+<script type="text/javascript">
+    $(function(){
+        $('.skin-minimal input').iCheck({
+            checkboxClass: 'icheckbox-blue',
+            radioClass: 'iradio-blue',
+            increaseArea: '20%'
+        });
 
-                {load href="__STATIC__/admin/js/image.js" /}
-                <script type="text/javascript">
-                    $(function(){
-                        $('.skin-minimal input').iCheck({
-                            checkboxClass: 'icheckbox-blue',
-                            radioClass: 'iradio-blue',
-                            increaseArea: '20%'
-                        });
+        //表单验证
+        $("#form-singwaapp").validate({
+            rules:{
+                class_name:{
+                    required:true,
+                },
 
-                        //表单验证
-                        $("#form-singwaapp").validate({
-                            rules:{
-                                title:{
-                                    required:true,
-                                },
-                                small_title:{
-                                    required:true,
-                                },
-                                catid:{
-                                    required:true,
-                                },
-                                sources_type:{
-                                    required:true,
-                                },
-                                is_allowcomments:{
-                                    required:true,
-                                },
 
-                            },
-                            onkeyup:false,
-                            focusCleanup:true,
-                            success:"valid",
-                            submitHandler:function(form){
-                                lovecnb_save(form);// 需要小伙伴自定义一个singwaapp_save方法 用来处理抛送请求的哦
-                            }
-                        });
+            },
+            onkeyup:false,
+            focusCleanup:true,
+            success:"valid",
+            submitHandler:function(form){
+                lovecnb_save(form);// 需要小伙伴自定义一个singwaapp_save方法 用来处理抛送请求的哦
+            }
+        });
 
-                        var ue = UE.getEditor('editor');
+        var ue = UE.getEditor('editor');
 
-                    });
+    });
 
-                </script>
-                <!--/请在上方写此页面业务相关的脚本-->
+</script>
+<!--/请在上方写此页面业务相关的脚本-->
 
-                </body>
-                </html>
+</body>
+</html>

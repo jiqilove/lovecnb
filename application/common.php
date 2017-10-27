@@ -8,7 +8,7 @@
 // +----------------------------------------------------------------------
 // | Author: 流年 <liu21st@gmail.com>
 // +----------------------------------------------------------------------
-
+use think\Db;
 // 应用公共文件
 
 function pagination($obj)
@@ -106,6 +106,27 @@ function vChapterName ($vchapter){
     $res = model('VideosChapter')
         ->where('id',$vchapter)
         ->column('chapter_name');
+
+    return $res[0];
+}
+
+
+function scollege ($college){
+
+    $res = Db::name('College')
+        ->where('id',$college)
+        ->column('college_name');
+
+    return $res[0];
+}
+
+
+
+function smajor ($major){
+
+    $res = Db::name('CollegeClass')
+        ->where('id',$major)
+        ->column('college_class_name');
 
     return $res[0];
 }
