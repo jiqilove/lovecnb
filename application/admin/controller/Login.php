@@ -63,6 +63,7 @@ class  Login extends Base
             $data = input('post.');
 
             //垃圾验证码，关了关了
+
 //            if (captcha_check($data['code'])) {
 //                $this->error('验证码不正确');
 //            }

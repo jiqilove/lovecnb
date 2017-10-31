@@ -81,12 +81,19 @@ class Students extends Base
 
 
 
+
     if (request()->isPost()) {
         $data = input("post.");
-                $validate = validate('StudentsAdd');
+
+
+
+        $validate = validate('StudentsAdd');
         if (!$validate->check($data)) {
             $this->error($validate->getError());
         }
+
+
+
 
         $data['password'] = md5($data['password'] . '_#sing_ty');
         $data ['status'] = 1;
@@ -119,12 +126,19 @@ class Students extends Base
 
     public function update(Request $request)
     {
-//        dump($request);
+
+
+
 
         if (request()->isPost()) {
             $data = input("post.");
             $edit_id=$request->param('id');
-dump($data);
+
+
+            //验证学号是否存在，如果存在显示信息，
+            //同时这个也是将tp5 的validate 机制的错我信息表达成文字，让用户更实际的去更改信息
+           $this->validateSutNum($data,$edit_id);
+
 //入库操作
 
             try {
@@ -149,7 +163,7 @@ dump($data);
 
             } catch (\Exception $exception) {
 
-                return $this->result('', 0, '修改失败');
+                return $this->result('', 0, $exception->getMessage());
             }
             if (!empty($id)) {
                 return $this->result(['jump_url' => url('students/index')], 1, 'ok');
@@ -184,6 +198,28 @@ dump($data);
         return $stu_college;
     }
 
+
+
+    public function   validateSutNum($data,$id){
+
+        try {   $stu_num=model('Students')
+            ->get(['studentNum'=>$data['studentNum']]);
+            $result = model('Students')
+                // id 在 5到8之间的
+                ->where('id', '<>', $id)
+                ->column('studentNum');
+
+
+        }catch (\Exception $exception) {
+            $this->error($exception->getMessage());
+        }
+
+
+        if(($stu_num==$result)==false){
+            $this->error('存在该学号');
+        }
+
+    }
     public function welcome()
     {
         return "hello word";
