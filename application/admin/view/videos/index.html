@@ -42,7 +42,9 @@
         <th width="80">ID</th>
         <th width="80">课程名称</th>
         <th width="80">章节名字</th>
-        <th width="80">缩图</th>
+        <th width="100">视频小标题</th>
+
+        <th width="80">视频缩图</th>
         <th width="120">更新时间</th>
         <th width="60">是否推荐</th>
         <th width="60">发布状态</th>
@@ -59,7 +61,7 @@
         <td class="text-l"><u style="cursor:pointer" class="text-primary"  title="查看">{$vo.vclass|vclassName}</u></td>
         <td class="text-l"><u style="cursor:pointer" class="text-primary"  title="查看">{$vo.vchapter|vChapterName}</u></td>
 
-
+          <td width="100">{$vo.title}</td>
 
         <td><img width="60" height="60" class="picture-thumb" src="{$vo.video}"></td>
         <td>{$vo.update_time}</td>

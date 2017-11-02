@@ -8,10 +8,6 @@ use think\Request;
 
 class Videos extends Base
 {
-
-
-
-
     /**
      * 上传七妞云
      */
@@ -40,13 +36,10 @@ class Videos extends Base
 
     }
 
-
-
-
-
-
-
-
+    /**
+     * s首页显示
+     * @return mixed
+     */
     public function index()
     {
 
@@ -125,9 +118,6 @@ class Videos extends Base
 
         ]);
     }
-
-
-
     /**
      * 增加功能
      * @return mixed|
@@ -177,6 +167,11 @@ class Videos extends Base
     }
 }
 
+    /**
+     * 更新功能
+     * @param Request $request
+     * @return mixed|void
+     */
     public function update(Request $request)
     {
 //        dump($request);
@@ -192,17 +187,14 @@ class Videos extends Base
                     ->update(
                         ['vclass' => $data['vclass'],
                             'vchapter' => $data['vchapter'],
-
-                            'description' => $data['description'],
                             'is_allowcomments' => $data['is_allowcomments'],
                             'is_position' => $data['is_position'],
                             'video' => $data['video'],
-                            'content' => $data['content'],
+                            'title' => $data['title'],
                         ]
                     );
 
             } catch (\Exception $exception) {
-
                 return $this->result('', 0, '修改失败');
             }
             if (!empty($id)) {
@@ -221,15 +213,10 @@ class Videos extends Base
         }
     }
 
-
-
-
-
     public function welcome()
     {
         return "hello word";
     }
-
 
     public function getChapter($id){
         $Chapter = model('VideosChapter')

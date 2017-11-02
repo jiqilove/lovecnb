@@ -48,10 +48,10 @@
 
 
             <a style="text-decoration:none" class="ml-5" onClick="article_edit( '' ,'edit','{$vo.id}','' )"  href="javascript:;" title="编辑"   ><i class="Hui-iconfont">&#xe6df;</i></a>
-            <a style="text-decoration:none" class="ml-5" onClick="app_del(this)" href="javascript:;" title="删除" del_url="{:url('videos_class/delete',['id'=>$vo.id])}">
+            <a style="text-decoration:none" class="ml-5" onClick="app_del(this)" href="javascript:;" title="删除" del_url="{:url('videos_chapter/delete',['id'=>$vo.id])}">
                 <i class="Hui-iconfont">&#xe6e2;</i></a></td>
       </tr>
-{/volist}"
+{/volist}
       </tbody>
     </table>
     <div id="laypage" style="margin-left:30%;"> </div>

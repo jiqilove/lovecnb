@@ -1,0 +1,140 @@
+<!--header-->
+{include file="public/_meta" /}
+<article class="page-container">
+
+{volist name ="contant" id="vo" }
+
+    <form class="form form-horizontal" id="form-singwaapp" url="{:url('task_question/update',['id'=>$vo['id']])}">
+
+        <div class="row cl">
+            <label class="form-label col-xs-4 col-sm-2">类型题目：</label>
+            <div class="formControls col-xs-8 col-sm-9">
+                <input type="text" class="input-text" value="{$vo.difficulty_type}" placeholder="" id="difficulty_type" name="difficulty_type">
+            </div>
+        </div>
+
+
+
+        <div class=" row cl ">
+            <label class=" form-label col-xs-4 col-sm-2 "><span class=" c-red ">*</span>作业归属日期：</label>
+            <div class=" formControls col-xs-8 col-sm-9 "> <span class=" select-box ">
+                    <select name="task_id" class=" select ">
+                              <option value="0" id="">请选择</option>
+                        {volist name="task_time" id="vo0"}
+                             <option value="{$key}"{if condition="$key eq $vo.task_id"}selected="selected" {/if} > {$vo0}</option>
+                        {/volist}
+                     </select>
+                </span>
+            </div>
+        </div>
+
+
+
+
+
+
+        <div class="row cl">
+            <label class="form-label col-xs-4 col-sm-2">问题描述：</label>
+            <div class="formControls col-xs-8 col-sm-9">
+                <input type="text" class="input-text" value="{$vo.question}" placeholder="" id="question" name="question">
+            </div>
+        </div>
+
+
+        <div class="row cl">
+            <label class="form-label col-xs-4 col-sm-2">问题图片描述：</label>
+            <div class="formControls col-xs-8 col-sm-9">
+                <input id="file_upload" type="file" multiple="true">
+                <img style="" id="upload_org_code_img" src="" width="150" height="150">
+                <input id="file_upload_image" name="image" type="hidden" multiple="true" value="{$vo.img}">
+            </div>
+        </div>
+
+
+        <div class="row cl">
+            <label class="form-label col-xs-4 col-sm-2">答案：</label>
+            <div class="formControls col-xs-8 col-sm-9">
+                <input type="text" class="input-text" value="{$vo.answer}" placeholder="" id="answer" name="answer">
+            </div>
+        </div>
+
+
+
+        <div class="row cl">
+            <div class="col-xs-8 col-sm-9 col-xs-offset-4 col-sm-offset-2">
+                <button class="btn btn-secondary radius" type="submit"><i class="Hui-iconfont">&#xe632;</i> 保存</button>
+                <button onClick="removeIframe();" class="btn btn-default radius" type="button">&nbsp;&nbsp;取消&nbsp;&nbsp;</button>
+            </div>
+        </div>
+    </form>
+    {/volist}
+</article>
+
+<!--header-->
+{include file="public/_footer" /}
+
+<!--请在下方写此页面业务相关的脚本-->
+<script type="text/javascript" src="__STATIC__/hadmin/lib/My97DatePicker/4.8/WdatePicker.js"></script>
+<script type="text/javascript" src="__STATIC__/hadmin/lib/jquery.validation/1.14.0/jquery.validate.js"></script>
+<script type="text/javascript" src="__STATIC__/hadmin/lib/jquery.validation/1.14.0/validate-methods.js"></script>
+<script type="text/javascript" src="__STATIC__/hadmin/lib/jquery.validation/1.14.0/messages_zh.js"></script>
+<script type="text/javascript" src="__STATIC__/hadmin/lib/ueditor/1.4.3/ueditor.config.js"></script>
+<script type="text/javascript" src="__STATIC__/hadmin/lib/ueditor/1.4.3/ueditor.all.min.js"></script>
+<script type="text/javascript" src="__STATIC__/hadmin/lib/ueditor/1.4.3/lang/zh-cn/zh-cn.js"></script>
+{load href="__STATIC__/admin/uploadify/jquery.uploadify.min.js" /}
+{load href="__STATIC__/admin/js/image.js" /}
+<script type="text/javascript">
+
+
+
+
+
+
+
+
+
+
+
+
+    function selecttime() {
+        var endTime = $("#birthday").val();
+        if (endTime != "") {
+            WdatePicker({dateFmt: 'yyyy-MM-dd ', maxDate: endTime})
+        } else {
+            WdatePicker({dateFmt: 'yyyy-MM-dd '})
+        }
+
+    }
+
+
+    $(function () {
+        $('.skin-minimal input').iCheck({
+            checkboxClass: 'icheckbox-blue',
+            radioClass: 'iradio-blue',
+            increaseArea: '20%'
+        });
+
+
+        //表单验证
+        $("#form-singwaapp").validate({
+            rules: {
+
+
+            },
+            onkeyup: false,
+            focusCleanup: true,
+            success: "valid",
+            submitHandler: function (form) {
+                lovecnb_save(form);// 需要小伙伴自定义一个singwaapp_save方法 用来处理抛送请求的哦
+            }
+        });
+
+        var ue = UE.getEditor('editor');
+
+    });
+
+</script>
+<!--/请在上方写此页面业务相关的脚本-->
+
+</body>
+</html>

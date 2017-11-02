@@ -4,31 +4,7 @@
 <nav class="breadcrumb"><i class="Hui-iconfont">&#xe67f;</i> 首页 <span class="c-gray en">&gt;</span> 资讯管理 <span class="c-gray en">&gt;</span> 资讯列表 <a class="btn btn-success radius r" style="line-height:1.6em;margin-top:3px" href="javascript:location.replace(location.href);" title="刷新" ><i class="Hui-iconfont">&#xe68f;</i></a></nav>
 <div class="page-container">
   <div class="text-c">
-    <form action="{:url('students/index')}" method="get">
 
-        <span class="select-box inline">
-    <select name="college" class="select" style="margin-right: 10px" onchange="cChange(this.value)">
-          <option value="0">学院名称</option>
-                {volist name ="collegeName1" id="vo"}
-          <option   value="{$key}"{if condition="$key eq 0"}selected="selected" {/if} > {$vo}</option>
-                {/volist}
-        </select>
-            </span>
-        <span class="select-box inline" style="margin-right: 10px">
-
-            <select name="major" class="select" id="major">
-
- <option value="0">请先选择学院</option>
-             </select>
-            </span>
-
-
-
-
-
-      <input type="text" name="studentNum" id="studentNum" value="" placeholder=" 填写学号" style="width:250px" class="input-text">
-      <button name="" id="" class="btn btn-success" type="submit"><i class="Hui-iconfont">&#xe665;</i> 搜资讯</button>
-    </form>
   </div>
 
   <div class="mt-20">
@@ -36,41 +12,29 @@
       <thead>
       <tr class="text-c">
         <th width="25"><input type="checkbox" name="" value=""></th>
-        <th width="20">ID</th>
-        <th  width="60">学号</th>
-        <th width="60">名字</th>
-        <th width="100">学院</th>
-        <th width="100">专业</th>
-        <th width="30">性别</th>
-        <th width="80">出生日期</th>
-        <th width="100">电话</th>
-        <th width="120">邮箱</th>
-        <th width="120">地址</th>
-        <th width="60">编辑</th>
+        <th width="20">序号</th>
+        <th  width="60">难度</th>
+        <th width="60">归属作业</th>
+        <th width="100">问题</th>
+        <th width="100">答案</th>
+        <th width="30">图片</th>
+        <th width="30">创建时间</th>
+        <th width="80">状态</th>
+        <th width="80">编辑</th>
       </tr>
       </thead>
       <tbody>
-{volist name ="students" id="vo"}
+{volist name ="task_question" id="vo"}
       <tr class="text-c">
         <td><input type="checkbox" value="" name=""></td>
         <td> {$vo.id}</td>
-        <td class="text-l"><u style="cursor:pointer" class="text-primary"  title="查看">{$vo.studentNum}</u></td>
-          <td> {$vo.stu_name}</td>
-
-
-          <td class="text-l">{$vo.college|scollege}</td>
-          <td class="text-l">{$vo.major|smajor}</td>
-
-
-
-
-          <td>{$vo.sex|getSexCatName}</td>
-        <td>{$vo.birthday}</td>
-          <td>{$vo.phone}</td>
-        <td>{$vo.email}</td>
-        <td>{$vo.address}</td>
-
-
+        <td class="text-c">{$vo.difficulty_type}</td>
+          <td> {$vo.task_id|getTaskName}</td>
+          <td> {$vo.question}</td>
+          <td> {$vo.answer}</td>
+          <td><img width="60" height="60" class="picture-thumb" src="{$vo.img}"></td>
+          <td class="text-l">{$vo.create_time}</td>
+          <td>{$vo.status|status=$vo.id,###}</td>
         <td class="f-14 td-manage">
 
             <a style="text-decoration:none" class="ml-5" onClick="article_edit( '' ,'edit','{$vo.id}','' )"  href="javascript:;" title="编辑"   ><i class="Hui-iconfont">&#xe6df;</i></a>

@@ -19,13 +19,6 @@ class Base extends Controller
     //定义model 获取控制的名称用的
     public $model = '';
 
-
-
-
-
-
-
-
     /**
      * 上传七妞云
      */
@@ -106,7 +99,9 @@ class Base extends Controller
     public function delete($id = 0)
     {
 
-        if (!intval($id)) {
+        $this_id=$id;
+
+        if (!intval($this_id)) {
             return $this->result('', 0, 'id不合法');
         }
 
@@ -115,7 +110,8 @@ class Base extends Controller
         $model = $this->model ? $this->model : request()->controller();
 
         try {
-            $res = model($model)->save(['status' => -1], ['id' => $id]);
+            $res = model($model)->save(['status' => -1], ['id' => $this_id]);
+
         } catch (\Exception $exception) {
             return $this->result('', 0, $exception->getMessage());
         }
@@ -136,16 +132,18 @@ class Base extends Controller
     {
         $data = input('param.');
         $edit_id=$data['id'];
-        $model = $this->model ? $this->model : request()->controller();
-        $classList = model('VideosClass') ->where('status', 1) ->column('class_name', 'id');
 
+        $classList = model('VideosClass') ->where('status', 1) ->column('class_name', 'id');
+        $model = $this->model ? $this->model : request()->controller();
         $contant = model($model)
-            ->where('id', $data['id'])
+            ->where('id', $edit_id)
             ->select();
-        $good=$contant[0];
+
+        $task_time = model('Task') ->where('status', 1) ->column('title', 'id');
+
         return $this->fetch('',[
 
-
+            'task_time' => $task_time,
             'className' => $classList,
             'cats' => config('cat.lists'),
             'stu_cats_college'=>config('cat.college_lists'),

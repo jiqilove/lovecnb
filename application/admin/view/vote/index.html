@@ -1,0 +1,144 @@
+<!--header-->
+{include file="public/_meta" title="视频资讯"/}
+
+<nav class="breadcrumb"><i class="Hui-iconfont">&#xe67f;</i> 首页 <span class="c-gray en">&gt;</span> 资讯管理 <span class="c-gray en">&gt;</span> 资讯列表 <a class="btn btn-success radius r" style="line-height:1.6em;margin-top:3px" href="javascript:location.replace(location.href);" title="刷新" ><i class="Hui-iconfont">&#xe68f;</i></a></nav>
+<div class="page-container">
+  <div class="text-c">
+    <form action="{:url('vote/index')}" method="get">
+
+      <input type="text" name="content" id="content" value="" placeholder="提问内容" style="width:250px" class="input-text">
+      <button name="" id="" class="btn btn-success" type="submit"><i class="Hui-iconfont">&#xe665;</i> 搜资讯</button>
+    </form>
+  </div>
+
+  <div class="mt-20">
+    <table class="table table-border table-bordered table-bg table-hover table-sort table-responsive" >
+      <thead>
+
+      <tr class="text-c" >
+        <th rowspan="2" width="25"><input type="checkbox" name="" value=""></th>
+        <th  rowspan="2" width="20">ID</th>
+        <th  width="120"  colspan="2">发起人</th>
+
+        <th rowspan="2"  width="60">选项A</th>
+        <th rowspan="2" width="60">选项A人数</th>
+        <th rowspan="2" width="60">选项B</th>
+        <th rowspan="2" width="60">选项B人数</th>
+        <th rowspan="2" width="60">选项C</th>
+        <th  rowspan="2" width="60">选项C人数</th>
+        <th rowspan="2" width="60">选项D</th>
+        <th  rowspan="2" width="60">选项D人数</th>
+        <th rowspan="2" width="60">创建日期</th>
+        <th rowspan="2" width="60">结束投票日期</th>
+        <th rowspan="2" width="30" >状态</th>
+
+
+
+
+
+        <th width="60" rowspan="2">编辑</th>
+      </tr>
+      <tr>
+
+
+
+        <th width="20">学生</th>
+        <th width="20">教师</th>
+
+
+      </tr>
+      </thead>
+      <tbody>
+{volist name ="vote" id="vo"}
+      <tr class="text-c">
+        <td><input type="checkbox" value="" name=""></td>
+        <td> {$vo.id}</td>
+
+        <td class="text-l"><u style="cursor:pointer" class="text-primary"  title="查看">{$vo.students_id}</u></td>
+        <td class="text-l"><u style="cursor:pointer" class="text-primary"  title="查看">{$vo.teacher_id}</u></td>
+
+
+
+          <td >{$vo.selectContentA}</td>
+        <td >{$vo.selectA}</td>
+          <td >{$vo.selectContentB}</td>
+        <td >{$vo.selectB}</td>
+          <td >{$vo.selectContentC}</td>
+        <td >{$vo.selectC}</td>
+          <td >{$vo.selectContentD}</td>
+        <td >{$vo.selectD}</td>
+          <td >{$vo.create_time}</td>
+
+
+
+
+          <td >{$vo.end_time}</td>
+          <td >{$vo.status|status=$vo.id,###}</td>
+
+
+        <td class="f-14 td-manage" >
+            <a style="text-decoration:none" class="ml-5" onClick="app_del(this)" href="javascript:;" title="删除" del_url="{:url('students/delete',['id'=>$vo.id])}">
+              <i class="Hui-iconfont">&#xe6e2;</i></a></td>
+
+      </tr>
+
+
+{/volist}
+      </tbody>
+    </table>
+    <div id="laypage" style="margin-left:30%;"> </div>
+  </div>
+
+</div>
+
+
+
+<!--header-->
+{include file="public/_footer" /}
+
+<!--请在下方写此页面业务相关的脚本-->
+<script type="text/javascript" src="__STATIC__/hadmin/lib/My97DatePicker/4.8/WdatePicker.js"></script>
+<script type="text/javascript" src="__STATIC__/hadmin/lib/laypage/1.2/laypage.js"></script>
+{load href="__STATIC__/admin/js/common.js" /}
+<script type="text/javascript">
+
+
+
+
+
+    var url='{:url("students/index")}'+'?{$query}';
+
+    laypage({
+        cont: 'laypage', //容器。值支持id名、原生dom对象，jquery对象。【如该容器为】：<div id="page1"></div>
+        pages: '{$pageTotal}', //通过后台拿到的总页数
+        curr: '{$curr}', //初始化当前页
+        skin: '#429842',//皮肤颜色
+
+//        skip: true, //是否开启跳页
+//        first: '首页', //若不显示，设置false即可
+//        last: '尾页', //若不显示，设置false即可
+        //prev: '<', //若不显示，设置false即可
+        //next: '>', //若不显示，设置false即可
+        jump : function ( e,first) {
+            if(!first){
+//                location.href =url+'?page='+e.curr;
+                /**
+                 *  ?  和 &
+                 * &  是和的意思
+                 */
+                  location.href =url+'&page='+e.curr;
+
+            }
+
+        }
+    });
+
+</script>
+<style>
+  .imooc-app .pagination li{display:inline; padding-left:10px;}
+  .pagination .active{color:red}
+  .pagination .disabled{color:#888888}
+</style>
+</body>
+</html>
+

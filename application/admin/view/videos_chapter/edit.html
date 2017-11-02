@@ -2,9 +2,10 @@
 {include file="public/_meta" /}
 
 <article class="page-container">
-    <form class="form form-horizontal" id="form-singwaapp" url="{:url('videos_chapter/add')}">
+    {volist name ="contant" id="voo" }
+    <form class="form form-horizontal" id="form-singwaapp" url="{:url('videos_chapter/update',['id'=>$voo['id']])}">
 
-        {volist name ="contant" id="voo" }
+
         <div class="row cl">
 
             <label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>章节名称：</label>
@@ -33,7 +34,7 @@
             <label class="form-label col-xs-4 col-sm-2">允许观看：</label>
             <div class="formControls col-xs-8 col-sm-9 skin-minimal">
                 <div class="check-box">
-                    <input type="checkbox" id="videos_watch" name="videos_watch" value="1">
+                    <input type="checkbox" id="videos_watch" name="chapter_watch" value="1">
                     <label for="checkbox-pinglun">&nbsp;</label>
                 </div>
             </div>
@@ -43,7 +44,7 @@
 
         <div class="row cl">
             <div class="col-xs-8 col-sm-9 col-xs-offset-4 col-sm-offset-2">
-                <button  class="btn btn-secondary radius" type="submit"><i class="Hui-iconfont">&#xe632;</i> 新建章节</button>
+                <button  class="btn btn-secondary radius" type="submit"><i class="Hui-iconfont">&#xe632;</i> 修改章节</button>
                 <button onClick="removeIframe();" class="btn btn-default radius" type="button">&nbsp;&nbsp;取消&nbsp;&nbsp;</button>
             </div>
         </div>

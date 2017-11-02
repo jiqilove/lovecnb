@@ -108,12 +108,13 @@ class VideosClass extends Base
 
     public function update(Request $request)
     {
-//        dump($request);
-
+//
         if (request()->isPost()) {
             $data = input("post.");
             $edit_id=$request->param('id');
 //入库操作
+
+
 
 
             try {
@@ -124,6 +125,10 @@ class VideosClass extends Base
                             'class_name' => $data['class_name'],
                             'class_img' => $data['class_img'],
                             'videos_watch' => $data['videos_watch'],
+                            'small_title' => $data['small_title'],
+                            'content' => $data['content'],
+
+
 
                         ]
                     );
@@ -132,8 +137,8 @@ class VideosClass extends Base
 
                 return $this->result('', 0, $exception->getMessage());
             }
-            if (!empty($id)) {
-                return $this->result(['jump_url' => url('videos/index')], 1, 'ok');
+            if ($id) {
+                return $this->result(['jump_url' => url('videos_class/index')], 1, 'ok');
             } else {
                 return $this->result('', 0, '修改失败111');
             }

@@ -4,6 +4,7 @@
 namespace app\admin\controller;
 
 use think\Controller;
+use think\Db;
 use think\Request;
 
 class VideosChapter extends Base
@@ -40,9 +41,6 @@ class VideosChapter extends Base
         }
 
 
-
-
-
         $this->getPageAndSize($data);
 
 //        获取表里头的数据
@@ -76,7 +74,7 @@ class VideosChapter extends Base
     {
         $classList = model('VideosClass')
             ->where('status', 1)
-            ->column('class_name','id');
+            ->column('class_name', 'id');
 //返回以 id为索引的 name 列 数据
 
         if (request()->isPost()) {
@@ -110,28 +108,34 @@ class VideosChapter extends Base
             $data = input("post.");
             $edit_id = $request->param('id');
 //入库操作
-
             try {
                 $id = model('VideosChapter')
                     ->where('id', $edit_id)
                     ->update(
-                        [
-                            'class_img' => $data['class_img'],
+                        [   'videos_class_id' => $data['videos_class_id'],
+                            'chapter_name' => $data['chapter_name'],
                             'chapter_watch' => $data['chapter_watch'],
                         ]
                     );
-
             } catch (\Exception $exception) {
 
                 return $this->result('', 0, $exception->getMessage());
             }
-            if (!empty($id)) {
-                return $this->result(['jump_url' => url('videos/index')], 1, 'ok');
-            } else {
-                return $this->result('', 0, '修改失败111');
+            $getChapter_Name = Db::name('VideosChapter')->where('videos_class_id', $data['videos_class_id'])->column('chapter_name');
+            $chaNanme = $data['chapter_name'];
+            $long = sizeof($getChapter_Name);
+            for ($i = 0; $i < $long; $i++) {
+                if ($getChapter_Name[$i] = $chaNanme) {
+                    return $this->result('', 0, '该课程下已经存在你所要创建的章节');
+                    break;
+                } else {
+                    if ($id) {
+                    } else {
+                        return $this->result('', 0, '修改失败111');
+                    }
+
+                }
             }
-
-
         } else {
             return $this->fetch('videos/index', [
 
@@ -163,8 +167,6 @@ class VideosChapter extends Base
 
 
     }
-
-
 
 
     public function welcome()

@@ -89,8 +89,13 @@ function getSexCatName($sex)
 }
 
 
-
-
+/**
+ * 根据id查找课程名字
+ * @param $vclass  从index传过来的id
+ * @return mixed
+ *
+ * 课程
+ */
 function vclassName ($vclass){
 
     $res = model('VideosClass')
@@ -100,7 +105,13 @@ function vclassName ($vclass){
 return $res[0];
 }
 
-
+/**
+ * 根据id查找章节名字
+ * @param $vchapter 从index传过来的id
+ * @return mixed
+ *
+ * 章节
+ */
 function vChapterName ($vchapter){
 
     $res = model('VideosChapter')
@@ -111,6 +122,13 @@ function vChapterName ($vchapter){
 }
 
 
+/**
+ *  根据id查找学院 名字
+ * @param $college  从index传过来的id
+ * @return mixed
+ *
+ * 学院
+ */
 function scollege ($college){
 
     $res = Db::name('College')
@@ -121,6 +139,14 @@ function scollege ($college){
 }
 
 
+/**
+ * 根据id查找专业 名字
+ * @param $major 从index传过来的id
+ * @return mixed
+ *
+ *
+ * 专业
+ */
 
 function smajor ($major){
 
@@ -131,6 +157,61 @@ function smajor ($major){
     return $res[0];
 }
 
+function teacherName ($teacher_id){
+if ($teacher_id==null||$teacher_id==''){
+    return '--';
+}else{
+    $res = Db::name('Teachers')
+        ->where('teacherNum',$teacher_id)
+        ->column('teacher_name');
+$name=$res[0];
+    return $name;
+}
+}
+
+
+function studentName ($students_id){
+    if ($students_id==null||$students_id==''){
+        return '--';
+    }else{
+        $res = Db::name('Students')
+            ->where('studentNum',$students_id)
+            ->column('stu_name');
+        $name=$res[0];
+        return $name;
+    }
+}
+
+
+/**
+ * @param $task_id
+ * @return mixed
+ *
+ */
+function getTaskName ($task_id){
+
+        $res = Db::name('Task')
+            ->where('id',$task_id)
+            ->column('title');
+        $title=$res[0];
+        return $title;
+
+}
+
+
+
+
+
+
+function Qcontent ($question_id){
+
+        $res = Db::name('Question')
+            ->where('id',$question_id)
+            ->column('content');
+        $content=$res[0];
+        return $content;
+
+}
 
 
 
@@ -157,6 +238,8 @@ function isRecommend($recommend)
     return $recommend ? '<span style ="color:red ;" >是  </span>' : '<span  style ="color:#666;"> 否</span>';
 
 }
+
+
 /**
  * 状态
  * 待审/发布
@@ -183,7 +266,7 @@ function status($id, $status)
 
 
 /**
- * 状态
+ * 是否允许上传
  * 待审/发布
  * @param $id
  * @param $status
@@ -235,6 +318,13 @@ function videos_watch($id, $videos_watch)
     return $str;
 
 }
+
+/**
+ *是否又观看权限
+ * @param $id
+ * @param $chapter_watch
+ * @return string
+ */
 function chapter_watch($id, $chapter_watch)
 {
     $controller = request()->controller();          //获取控制器
@@ -246,6 +336,22 @@ function chapter_watch($id, $chapter_watch)
         $str ="<a href='javascript:;' title='修改状态' status_url='".$url. " ' onclick='app_status(this)'      > <span  class ='label label-success radius '>允许观看</span></a>";
     }else if  ($chapter_watch ==0){
         $str ="<a href='javascript:;' title='修改状态' status_url='".$url. " ' onclick='app_status(this)'      > <span  class ='label label-danger radius '>未可观看</span></a>";
+    }
+    return $str;
+
+}
+
+function isSlove($id, $is_solve)
+{
+    $controller = request()->controller();          //获取控制器
+
+    $sta = $is_solve == 1 ? 0 : 1;
+    //最终修改的地址状态
+    $url =url($controller.'/isSlove',['id'=>$id,'is_solve'=>$sta]);
+    if($is_solve ==1){
+        $str ="<a href='javascript:;' title='修改状态' status_url='".$url. " ' onclick='app_status(this)'      > <span  class ='label label-success radius '>已解决</span></a>";
+    }else if  ($is_solve ==0){
+        $str ="<a href='javascript:;' title='修改状态' status_url='".$url. " ' onclick='app_status(this)'      > <span  class ='label label-danger radius '>未解决</span></a>";
     }
     return $str;
 
