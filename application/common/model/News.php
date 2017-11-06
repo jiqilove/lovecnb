@@ -38,7 +38,43 @@ class  News extends Base
 
 
 
+    function pagination($obj)
+    {
+        if (!$obj) {
+            return '';
+        }
+        $params = request()->param();
+        return '<div class="imooc-app">' . $obj->appends($params)->render() . '</div>';
 
+
+    }
+
+
+    function getCatName($catId)
+    {
+        if (!$catId) {
+            return '';
+        }
+        $cats = config('cat.lists');
+        return !empty($cats[$catId]) ? $cats[$catId] : '';
+
+    }
+
+    /**
+     *
+     * @param $catId
+     * @return string
+     *
+     */
+    function getVideoCatName($catId)
+    {
+        if (!$catId) {
+            return '';
+        }
+        $cats = config('cat.video_lists');
+        return !empty($cats[$catId]) ? $cats[$catId] : '';
+
+    }
 
 
 

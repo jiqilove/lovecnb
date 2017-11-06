@@ -31,7 +31,7 @@ class News extends Base
         if (!empty($data['start_time']) && !empty($data['end_time']) && $data['end_time'] > $data['start_time']) //    条件：开始时间、结束时间不能为空    结束时间大于开时间
         {
             $whereData ['create_time'] = [
-                ['gt', strtotime($data['start_time'])],
+                ['gt', strtotime($data['start_time'])],//时间戳
                 ['lt', strtotime($data['end_time'])],
             ];
         }

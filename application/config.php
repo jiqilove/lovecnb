@@ -29,7 +29,21 @@ return [
     // 注册的根命名空间
     'root_namespace' => [],
     // 扩展函数文件
-    'extra_file_list' => [THINK_PATH . 'helper' . EXT],
+
+    'extra_file_list' => [
+        THINK_PATH . 'helper' . EXT,
+        APP_PATH . 'common_cat.php',
+       THINK_PATH . 'common_cat.php',
+
+        APP_PATH . 'common_idSearch.php',
+       THINK_PATH . 'common_idSearch.php',
+
+        APP_PATH . 'common_status.php',
+       THINK_PATH . 'common_status.php',
+    ],
+//    'extra_file_list' => [
+//        APP_PATH . 'common_cat.php',
+//        THINK_PATH . 'common_cat.php'],
     // 默认输出类型
     'default_return_type' => 'html',
     // 默认AJAX 数据返回格式,可选json xml ...
@@ -55,6 +69,11 @@ return [
     // | 模块设置
     // +----------------------------------------------------------------------
 
+
+
+
+
+
     // 默认模块名
     'default_module' => 'index',
     // 禁止访问模块
@@ -71,7 +90,6 @@ return [
     'action_suffix' => '',
     // 自动搜索控制器
     'controller_auto_search' => false,
-
     // +----------------------------------------------------------------------
     // | URL设置
     // +----------------------------------------------------------------------
@@ -230,7 +248,11 @@ return [
         'setcookie' => true,
     ],
 
-    //分页配置
+
+
+
+
+        //分页配置
     'paginate' => [
         'type' => 'bootstrap',
         'var_page' => 'page',
@@ -241,4 +263,7 @@ return [
         'imageH' => 60,
         'imageW' => 220,
     ],
+
+
 ];
+

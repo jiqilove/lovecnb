@@ -19,3 +19,5 @@ Route::delete('test/:id','api/test/delete');//删除
 
 
 //Route::resource();
+Route::resource('test','api/test');
+//   对应路径  x.com/test   post=>api test save
