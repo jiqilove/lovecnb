@@ -91,27 +91,10 @@
 <script type="text/javascript" src="__STATIC__/hadmin/lib/My97DatePicker/4.8/WdatePicker.js"></script>
 <script type="text/javascript" src="__STATIC__/hadmin/lib/laypage/1.2/laypage.js"></script>
 {load href="__STATIC__/admin/js/common.js" /}
+{load href="__STATIC__/admin/js/select.js" /}
 <script type="text/javascript">
 
 
-    function cChange (a){
-        var college_id=a;//获取到视频课程名称的id
-        var c = $('#major');
-
-//                   alert(class_id)
-//                        console.log(college_id);
-        c.html('');//如果没有清楚的话，那么选择的数据都会叠加到一起本来12 或 34  结果就会成  1234
-        $.ajax({
-            url: 'getCollegeClassName?id='+college_id,
-            method: 'GET',
-            success: function (data) {
-//                                console.log(data);
-                $.each(data,function (key, value) {
-                    c.append('<option  value="' + key + '" {if  condition ="$key"}  {/if} >'        +value + '</option>')
-                })
-            }
-        });
-    }
 
 
     var url='{:url("students/index")}'+'?{$query}';

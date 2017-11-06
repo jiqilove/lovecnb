@@ -27,8 +27,8 @@ class Comment extends Base
         /**
          * 标题搜索条件
          */
-        if (!empty($data['students_id'])) {
-            $whereData['students_id'] = ['like', '%' . $data['students_id'] . '%'];
+        if (!empty($data['studentNum'])) {
+            $whereData['studentNum'] = ['like', '%' . $data['studentNum'] . '%'];
         }
 
         $this->getPageAndSize($data);

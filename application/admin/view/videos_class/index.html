@@ -37,7 +37,9 @@
       <tr class="text-c">
         <td><input type="checkbox" value="" name=""></td>
         <td> {$vo.id}</td>
-        <td class="text-l"><u style="cursor:pointer" class="text-primary"  title="查看">{$vo.class_name}</u></td>
+        <td class="text-l">
+          <a  href="{:url('videos_class/details',['id'=>$vo.id])}"    >{$vo.class_name}</a>
+            </td>
 
         <td><img width="60" height="60" class="picture-thumb" src="{$vo.class_img}"></td>
         <td>{$vo.update_time}</td>

@@ -4,6 +4,7 @@
 namespace app\admin\controller;
 
 use think\Controller;
+use think\Db;
 use think\Request;
 
 class VideosClass extends Base
@@ -104,6 +105,43 @@ class VideosClass extends Base
     }
 }
 
+
+
+
+
+    /**
+     * 详情
+     * @return string
+     */
+    public function  details (){
+        $data = input('param.');
+
+        $id=$data['id'];
+        dump($id);
+
+        $query = http_build_query($data);
+        $whereData = [];
+        $this->getPageAndSize($data);
+        $result = Db::view('VideosClass','class_name,status,create_time,id')
+//            ->view('VideosChapter',['chapter_name'=>'cn'],'VideosChapter.videos_class_id=VideosClass.id')
+            ->view('Videos',['title'=>'videos_title' ,'id'=>'videos_id','vchapter'=>'chapter_id','video'],['Videos.vclass=VideosClass.id'])
+            ->where('id', $id)
+            ->order('id asc')
+            ->select();
+        dump($result);
+
+        //一共有多少页
+        $total = model('Videos')->getNewsCountByCondition($whereData);
+
+        $pageTotal = ceil($total / $this->size);
+        return $this->fetch('', [
+'classID'=>$id,
+            'videos_details' => $result,
+            'pageTotal' => $pageTotal,
+            'curr' => $this->page,
+            'query' => $query
+    ]);
+}
 
 
     public function update(Request $request)

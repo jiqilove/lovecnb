@@ -4,6 +4,7 @@ namespace app\admin\controller;
 
 use think\Controller;
 use   app\common\lib\MyAuth;
+use think\Request;
 
 
 /**
@@ -37,11 +38,34 @@ class  Login extends Base
 
     }
 
+    public function teacherLogin()
+    {
+        return $this->fetch();
+
+    }
+
+    public function adminLogin()
+    {
+        return $this->fetch();
+    }
+
+    public function studentsLogin()
+    {
+        return $this->fetch();
+
+    }
+
+
+
+
     public function welcome()
     {
         return "hello api-admin";
     }
 
+    /**
+     * 登出
+     */
     public function logout()
     {
 //清空session
@@ -56,8 +80,19 @@ class  Login extends Base
      * 2、查看是否存在用户
      * 3、存在的用户的密码是否正确
      */
-    public function check()
+    public function check(Request $request)
     {
+        $name = $request->param('login');
+        $username = '';
+
+        if ($name == 'Students') {
+            $username = "studentNum";
+        } else if ($name == 'Teachers') {
+            $username = 'teacherNum';
+        } else            if ($name == 'AdminUser') {
+                $username = 'username';
+            }
+        dump($name);
         //检测是不是以  post的形式提交表单的
         if (request()->isPost()) {
             $data = input('post.');
@@ -67,16 +102,17 @@ class  Login extends Base
 //            if (captcha_check($data['code'])) {
 //                $this->error('验证码不正确');
 //            }
-
-
             //判断username password  是否合法
             //使用 validata 机制
-
             /**
              * 1、username 去查询用户表
+             * 2、username 去查询学生表
+             * 3、username 去查询教师表
+             * 2
              */
+
             try {
-                $user = model('AdminUser')->get(['username' => $data['username']]);
+                $user = model($name)->get([$username => $data[$username]]);
             } catch (\Exception $exception) {
                 $this->error($exception->getMessage());
             }
@@ -103,7 +139,7 @@ class  Login extends Base
             ];
 
             try {
-                model('AdminUser')->save($udata, ['id' => $user->id]);
+                model($name)->save($udata, ['id' => $user->id]);
             } catch (\Exception $exception) {
                 $this->error($exception->getMessage());
             }
@@ -112,7 +148,16 @@ class  Login extends Base
              */
 
             session(config('admin.session_user'), '$user', config('admin.session_user_scope'));
-            $this->success('登录成功', 'index/index');
+
+
+            if ($name == 'Students') {
+                $this->success('登录成功', 'index/students');
+            } else if ($name == 'Teachers') {
+                $this->success('登录成功', 'index/index');
+            } else            if ($name == 'AdminUser') {
+                $this->success('登录成功', 'index/index');
+            }
+
 
 
         } else {
@@ -131,5 +176,10 @@ class  Login extends Base
 //        }
     }
 
+
+    public function select()
+    {
+
+    }
 
 }

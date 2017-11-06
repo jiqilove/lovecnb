@@ -56,7 +56,7 @@ class Students extends Base
         $pageTotal = ceil($total / $this->size);
         return $this->fetch('', [
             'cats_college' => config('cat.college_lists'),
-'collegeName1'=>$this->getCollegeName(),
+            'collegeName1' => $this->getCollegeName(),
             'students' => $student,
             'pageTotal' => $pageTotal,
             'curr' => $this->page,
@@ -72,72 +72,71 @@ class Students extends Base
      */
 
     public function add()
-{
-
-    $stu_college=Db::name('College')
-        ->where('status','1')
-        ->column('college_name','id');
-
-
-
-
-
-    if (request()->isPost()) {
-        $data = input("post.");
-
-
-
-        $validate = validate('StudentsAdd');
-        if (!$validate->check($data)) {
-            $this->error($validate->getError());
-        }
-
-
-
-
-        $data['password'] = md5($data['password'] . '_#sing_ty');
-        $data ['status'] = 1;
-        
-
-        try {
-            $id = model('Students')->add($data);
-
-        } catch (\Exception $exception) {
-
-            return $this->result('', 0, '新增失败');
-        }
-        if ($id) {
-            return $this->result(['jump_url' => url('students/index')], 1, 'ok');
-        } else {
-            return $this->result('', 0, '新增失败');
-        }
-
-    } else {
-
-        return $this->fetch('', [
-            'stu_cats_major' => config('cat.major_lists'),
-            'stu_cats_college' =>$stu_college,
-            'cats_sex' => config('cat.sex_lists')
-        ]);
-    }
-}
-
-
-
-    public function update(Request $request)
     {
 
-
+        $stu_college = Db::name('College')
+            ->where('status', '1')
+            ->column('college_name', 'id');
 
 
         if (request()->isPost()) {
             $data = input("post.");
-            $edit_id=$request->param('id');
 
+
+            $validate = validate('StudentsAdd');
+            if (!$validate->check($data)) {
+                $this->error($validate->getError());
+            }
+
+
+            $data['password'] = md5($data['password'] . '_#sing_ty');
+            $data ['status'] = 1;
+
+
+            try {
+                $id = model('Students')->add($data);
+
+            } catch (\Exception $exception) {
+
+                return $this->result('', 0, '新增失败');
+            }
+            if ($id) {
+                return $this->result(['jump_url' => url('students/index')], 1, 'ok');
+            } else {
+                return $this->result('', 0, '新增失败');
+            }
+
+        } else {
+
+            return $this->fetch('', [
+                'stu_cats_major' => config('cat.major_lists'),
+                'stu_cats_college' => $stu_college,
+                'cats_sex' => config('cat.sex_lists')
+            ]);
+        }
+    }
+
+
+    /**
+     * 更新数据库
+     * @param Request $request
+     * @return mixed|void
+     */
+    public function update(Request $request)
+    {
+
+        if (request()->isPost()) {
+            $data = input("post.");
+            $edit_id = $request->param('id');
+            $oldNum = $request->param('studentNum');
+
+            dump($oldNum);
+
+            $stu_num = $data['studentNum'];
 
             //验证学号是否存在，如果存在显示信息，
             //同时这个也是将tp5 的validate 机制的错我信息表达成文字，让用户更实际的去更改信息
-           $this->validateSutNum($data,$edit_id);
+            $this->validateSutNum($stu_num, $edit_id,$oldNum);
 
 //入库操作
 
@@ -172,26 +171,26 @@ class Students extends Base
             }
 
 
-        }
-
-        else {
-            return $this->fetch('videos/index', [
+        } else {
+            return $this->fetch('students/index', [
 
             ]);
         }
     }
 
 
-    public function getCollegeClassName($id){
+    public function getCollegeClassName($id)
+    {
         $College = Db::name('CollegeClass')
-            ->where('college_id',$id)
+            ->where('college_id', $id)
             ->column('	id,college_class_name');
         return json($College);
     }
 
-    public function  getCollegeName (){
-        $stu_college=Db::name('College')
-            ->where('status','1')
+    public function getCollegeName()
+    {
+        $stu_college = Db::name('College')
+            ->where('status', '1')
             ->column('college_name', 'id');
 
 
@@ -199,27 +198,68 @@ class Students extends Base
     }
 
 
+    public function validateSutNum($num, $id,$oldNum)
+    {
+        $result = '';
+        try {
 
-    public function   validateSutNum($data,$id){
-
-        try {   $stu_num=model('Students')
-            ->get(['studentNum'=>$data['studentNum']]);
+            $stu_num = $num;
             $result = model('Students')
                 // id 在 5到8之间的
                 ->where('id', '<>', $id)
                 ->column('studentNum');
 
-
-        }catch (\Exception $exception) {
+        } catch (\Exception $exception) {
             $this->error($exception->getMessage());
         }
 
 
-        if(($stu_num==$result)==false){
-            $this->error('存在该学号');
-        }
+        for ($i = 0; $i < sizeof($result); $i++) {
+            if (($stu_num == $result[$i]) == true) {
+                $this->error('存在该学号');
+            }
+            else {
 
-    }
+
+                try {
+
+                  Db::name('Answer')
+                        ->where('studentNum', $oldNum)
+                        ->update(
+                            [
+                                'studentNum' =>$num
+                            ]
+                        );
+              Db::name('Comment')
+                        ->where('studentNum', $oldNum)
+                        ->update(
+                            [
+                                'studentNum' =>$num
+                            ]
+                        );
+                  Db::name('Question')
+                        ->where('studentNum', $oldNum)
+                        ->update(
+                            [
+                                'studentNum' =>$num
+                            ]
+                        );
+                Db::name('Vote')
+                        ->where('studentNum', $oldNum)
+                        ->update(
+                            [
+                                'studentNum' =>$num
+                            ]
+                        );
+
+                } catch (\Exception $exception) {
+
+                    return $this->result('', 0, $exception->getMessage());
+                }
+            }
+        }
+   }
+
     public function welcome()
     {
         return "hello word";

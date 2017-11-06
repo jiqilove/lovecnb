@@ -15,4 +15,12 @@ class Index extends Base
     {
         return "hello word";
     }
+
+
+    public function  students (){
+        return $this->fetch();
+    }
+
+
+
 }
