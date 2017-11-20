@@ -60,13 +60,14 @@ class  Upload
          */
 
 //        halt($key);
-//初始化UploadMeesage 类
+// 初始化 UploadManager 对象并进行文件的上传。
         $uploadMgr = new UploadManager();
         list($res, $err) = $uploadMgr->putFile($token, $key, $file);
 
         if ($err != null) {
             return null;
         } else {
+
             return $key;
         }
 

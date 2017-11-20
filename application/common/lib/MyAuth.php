@@ -46,16 +46,17 @@ class  MyAuth
      * @param $data
      * @return bool
      */
-    public  static  function  checkSignPass($data){
-        $str=(new Aes())->decrypt($data['sign']);
-        if(empty($str)){
+    public  static  function  checkSignPass($data)
+    {
+        $str = (new Aes())->decrypt($data['sign']);
+        if (empty($str)) {
             return false;
         }
 
-        parse_str($str,$arr);
+        parse_str($str, $arr);
 
 //在提交表单的时候有多少需要验证的就填进来
-        if (!is_array($arr) || empty($arr['aaa'] )  ){
+        if (!is_array($arr) || empty($arr['aaa'])) {
             return false;
         }
         /**
@@ -63,9 +64,13 @@ class  MyAuth
          * 如果超过时间的话就不能通过
          *  但是这个设定并不是万能的，黑客有在获取到sign并且在你设顶的时间之内去登陆
          */
-        if ((time()-ceil($arr['time']/1000 )  )>config('app.app_sign_time')){
+        if (!config('app_debug')) {
+
+
+        if ((time() - ceil($arr['time'] / 1000)) > config('app.app_sign_time')) {
             return false;
         }
+
         /**
          * 唯一性判断
          *  echo Cache::get($data['sign']);
@@ -73,7 +78,7 @@ class  MyAuth
         if(Cache::get($data['sign'])){
             return false;
         }
-
+        }
 return true;
     }
 

@@ -14,4 +14,6 @@ return [
     ],
     'app_sign_time'=>600000,//sign失效时间
     'app_sign_cache_time'=>1200,//sign缓存失效时间
+    'success'=>1,
+    'error'=>0,
 ];

@@ -264,6 +264,6 @@ return [
         'imageW' => 220,
     ],
 
-
+    'HTTP_CACHE_CONTROL' => 'no-store',
 ];
 

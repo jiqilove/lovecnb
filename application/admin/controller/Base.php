@@ -3,7 +3,7 @@
 namespace app\admin\controller;
 
 use think\Controller;
-
+use app\common\lib\Upload;
 /**
  * 后台基类库
  * Class Base
@@ -19,23 +19,19 @@ class Base extends Controller
     //定义model 获取控制的名称用的
     public $model = '';
 
+
     /**
-     * 上传七妞云
+     * 上传七妞云s
      */
     public function upload()
     {
-
-        try {
-            $image = Upload::image();
-        }catch (\Exception $exception){
-            echo json_encode(['status' => 0, 'message' => $exception->getMessage()]);
-        }
-        if($image){
+        $dddd = Upload::image();
+        if($dddd){
 
             $data = [
                 'status' => 1,
                 'message' => 'ok',
-                'data' => config('qiniu.image_url').'/'.$image,
+                'data' => config('qiniu.image_url').'/'.$dddd,
                 //本地核域名之间的存在不同
                 //
             ];
